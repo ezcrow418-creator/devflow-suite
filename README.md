@@ -2,7 +2,7 @@
 
 **A free, privacy-first PWA with 5+ essential developer tools — plus a premium JavaScript Snippets Vault.**
 
-[![DevFlow Suite](https://t-0-47300579b9d40f3f.tunnel.pinfra.io/assets/icons/icon-192.png)](https://t-0-47300579b9d40f3f.tunnel.pinfra.io)
+[![DevFlow Suite](https://t-2-0984c62f98f2a28b.tunnel.pinfra.io/assets/icons/icon-192.png)](https://t-2-0984c62f98f2a28b.tunnel.pinfra.io)
 
 > **Built in 48 hours. Zero budget. No team. Just AI + action.**
 
@@ -23,7 +23,7 @@
 
 **Payment methods**: PayPal · Venmo · Crypto (Bitcoin) · Interac e-Transfer
 
-👉 [Live Demo](https://t-0-47300579b9d40f3f.tunnel.pinfra.io) | 💳 [PayPal.Me](https://paypal.me/aiforgestudio/9.99)
+👉 [Live Demo](https://t-2-0984c62f98f2a28b.tunnel.pinfra.io) | 💳 [PayPal.Me](https://paypal.me/aiforgestudio/9.99)
 
 ## 🛠️ Tech Stack
 

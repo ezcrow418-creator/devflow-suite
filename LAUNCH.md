@@ -30,7 +30,7 @@
 - **Payment**: PayPal.Me, Venmo, Crypto, Interac e-Transfer
 
 ## 📊 What's Live
-- ✅ Web app: https://t-0-47300579b9d40f3f.tunnel.pinfra.io
+- ✅ Web app: https://t-2-0984c62f98f2a28b.tunnel.pinfra.io
 - ✅ PDF download: .../assets/data/JavaScript_Snippets_Vault.pdf
 - ✅ Checkout → download flow with Pro key unlock
 - ✅ PayPal.Me payment: https://paypal.me/aiforgestudio/9.99
@@ -58,9 +58,9 @@ User → Landing Page → Dashboard (6 tools + Vault card)
 5. Iterate on features
 
 ## 🔗 Links
-- **Live Demo**: https://t-0-47300579b9d40f3f.tunnel.pinfra.io
+- **Live Demo**: https://t-2-0984c62f98f2a28b.tunnel.pinfra.io
 - **PayPal**: https://paypal.me/aiforgestudio/9.99
-- **PDF**: https://t-0-47300579b9d40f3f.tunnel.pinfra.io/assets/data/JavaScript_Snippets_Vault.pdf
+- **PDF**: https://t-2-0984c62f98f2a28b.tunnel.pinfra.io/assets/data/JavaScript_Snippets_Vault.pdf
 
 ---
 *Built with AI in Québec, Canada. Made with ❤️ and vanilla JavaScript.*
