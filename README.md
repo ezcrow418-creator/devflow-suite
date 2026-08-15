@@ -2,7 +2,7 @@
 
 **A free, privacy-first PWA with 5+ essential developer tools — plus a premium JavaScript Snippets Vault.**
 
-[![DevFlow Suite](https://t-2-0984c62f98f2a28b.tunnel.pinfra.io/assets/icons/icon-192.png)](https://t-2-0984c62f98f2a28b.tunnel.pinfra.io)
+[![DevFlow Suite](https://t-0-cd4230b52f7fa413.tunnel.pinfra.io/assets/icons/icon-192.png)](https://t-0-cd4230b52f7fa413.tunnel.pinfra.io)
 
 > **Built in 48 hours. Zero budget. No team. Just AI + action.**
 
@@ -23,7 +23,7 @@
 
 **Payment methods**: Bitcoin (BTC) · Interac e-Transfer
 
-👉 [Live Demo](https://t-2-0984c62f98f2a28b.tunnel.pinfra.io) | 💳 [Bitcoin (BTC)](bc1q5qn2ck8dt5ul9uj2pasnnzrayefwpjkvfkya2q (BTC))
+👉 [Live Demo](https://t-0-cd4230b52f7fa413.tunnel.pinfra.io) | 💳 [Bitcoin (BTC)](bc1q5qn2ck8dt5ul9uj2pasnnzrayefwpjkvfkya2q)
 
 ## 🛠️ Tech Stack
 
@@ -107,7 +107,7 @@ Buy the PDF → Get the Pro key → Unlock all Pro features.
 Found a bug? Want a feature? Have a snippet to add?
 
 - Open an issue
-- Or reach out via [Bitcoin (BTC)/aiforgestudio](https://smart.voucher.agentic@gmail.com)
+- Or reach out via Bitcoin (BTC): `bc1q5qn2ck8dt5ul9uj2pasnnzrayefwpjkvfkya2q` or Interac e-Transfer: `smart.voucher.agentic@gmail.com`
 
 ---
 

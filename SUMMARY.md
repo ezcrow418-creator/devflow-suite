@@ -6,8 +6,8 @@ A complete **free PWA** with 5 developer tools + a **premium JavaScript Snippets
 ## Live URLs
 | Resource | URL |
 |----------|-----|
-| **App** | https://t-2-0984c62f98f2a28b.tunnel.pinfra.io |
-| **Short** | https://tinyurl.com/28qk3hyx |
+| **App** | https://t-0-cd4230b52f7fa413.tunnel.pinfra.io |
+| **Short** | https://tinyurl.com/266m9fqn |
 | **PDF** | /assets/data/JavaScript_Snippets_Vault.pdf (38,163 bytes, 52 snippets) |
 | **Bitcoin (BTC)** | bc1q5qn2ck8dt5ul9uj2pasnnzrayefwpjkvfkya2q (BTC) |
 
@@ -77,7 +77,7 @@ A complete **free PWA** with 5 developer tools + a **premium JavaScript Snippets
 4. Created `README.md` (full project documentation)
 5. Created `LAUNCH.md` (launch announcement with architecture diagram)
 6. Created `PROMOTE.md` (tweet thread, Reddit post, Show HN text, dev.to article, LinkedIn post)
-7. Created short URLs via TinyURL (app: https://tinyurl.com/28qk3hyx)
+7. Created short URLs via TinyURL (app: https://tinyurl.com/266m9fqn)
 8. Added CountAPI analytics tracking in app.js
 
 ### 📋 Ready for Manual Sharing
@@ -91,11 +91,11 @@ All content in `PROMOTE.md` is ready to copy-paste into:
 - Discord/Slack dev communities
 
 ## Next Steps
-1. **Share the short URL** (https://tinyurl.com/28qk3hyx) on social platforms manually
+1. **Share the short URL** (https://tinyurl.com/266m9fqn) on social platforms manually
 2. **Create accounts** on HN, Reddit, dev.to when possible and submit
 3. **Monitor traffic** via CountAPI and server logs
 4. **Refresh the tunnel** if it expires (7-day TTL) — the server process must stay alive
-5. **Track Bitcoin (BTC) and Interac** for incoming payments (bc1q5qn2ck8dt5ul9uj2pasnnzrayefwpjkvfkya2q (BTC))
+5. **Track Bitcoin (BTC) and Interac** for incoming payments (bc1q5qn2ck8dt5ul9uj2pasnnzrayefwpjkvfkya2q)
 6. **Iterate** based on user feedback
 
 ## Hosting Status
