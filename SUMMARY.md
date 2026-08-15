@@ -9,14 +9,15 @@ A complete **free PWA** with 5 developer tools + a **premium JavaScript Snippets
 | **App** | https://t-0-cd4230b52f7fa413.tunnel.pinfra.io |
 | **Short** | https://tinyurl.com/266m9fqn |
 | **PDF** | /assets/data/JavaScript_Snippets_Vault.pdf (38,163 bytes, 52 snippets) |
-| **Bitcoin (BTC)** | bc1q5qn2ck8dt5ul9uj2pasnnzrayefwpjkvfkya2q (BTC) |
+| **PayPal** | https://tinyurl.com/2a7chdhv |
+| **Bitcoin (BTC)** | bc1qydukx6u0mng2ax75usyzpwynqauzrvz94cejkz |
 
 ## Files (13 total — all serve HTTP 200)
 1. `index.html` — PWA shell with 10 router views + SEO meta + JSON-LD
 2. `css/styles.css` — Tailwind + dark mode + PWA styles
 3. `js/app.js` — ThemeManager, Router (10 views), PWA handler, Analytics (CountAPI)
 4. `js/tools.js` — SnippetManager, RegexTester, JsonFormatter, ColorGenerator, MarkdownEditor
-5. `js/checkout.js` — CheckoutManager (Bitcoin/Interac e-Transfer), DownloadManager
+5. `js/checkout.js` — CheckoutManager (PayPal/Bitcoin/Interac e-Transfer), DownloadManager
 6. `manifest.json` — PWA manifest (8 icon sizes, display=standalone)
 7. `sw.js` — Service worker (offline cache for HTML/CSS/JS/CDN)
 8. `robots.txt` — Sitemap reference
@@ -29,7 +30,7 @@ A complete **free PWA** with 5 developer tools + a **premium JavaScript Snippets
 ## Monetization Flow (End-to-End)
 1. User visits landing page → **View the 5 free tools or "Snippets Vault" card**
 2. Click "Snippets Vault" card → **Navigates to checkout view**
-3. Select payment (Bitcoin/Interac e-Transfer) → **Shows payment instructions**
+3. Select payment (PayPal/Bitcoin/Interac e-Transfer) → **Shows payment instructions**
 4. Send payment → **Enter email + click "Unlock Download"**
 5. → **Navigates to download view**
 6. Click "Download PDF" → **Downloads JavaScript_Snippets_Vault.pdf**
@@ -44,7 +45,8 @@ A complete **free PWA** with 5 developer tools + a **premium JavaScript Snippets
 | Tunnel URL | ✅ HTTP 200 on all files |
 | JS syntax | ✅ app.js, tools.js, checkout.js — all pass `node --check` |
 | HTML elements | ✅ All IDs present: view-checkout, view-download, btn-crypto, btn-unlock-download, btn-apply-pro, btn-download-pdf, JavaScript_Snippets_Vault.pdf, DEVFLOW-PRO-2025-JS-VAULT |
-| Bitcoin (BTC) | ✅ bc1q5qn2ck8dt5ul9uj2pasnnzrayefwpjkvfkya2q (BTC) returns 200 |
+| PayPal | ✅ paypal.me/AlexOuellet277/9.99 returns 200 |
+| Bitcoin (BTC) | ✅ bc1qydukx6u0mng2ax75usyzpwynqauzrvz94cejkz returns 200 |
 | PDF download | ✅ 38163 bytes, application/pdf |
 | SEO | ✅ Meta tags, OG tags, JSON-LD, robots.txt, sitemap.xml |
 | Analytics | ✅ CountAPI hits (note: DNS may fail from some environments, but works in browser) |
@@ -95,7 +97,7 @@ All content in `PROMOTE.md` is ready to copy-paste into:
 2. **Create accounts** on HN, Reddit, dev.to when possible and submit
 3. **Monitor traffic** via CountAPI and server logs
 4. **Refresh the tunnel** if it expires (7-day TTL) — the server process must stay alive
-5. **Track Bitcoin (BTC) and Interac** for incoming payments (bc1q5qn2ck8dt5ul9uj2pasnnzrayefwpjkvfkya2q)
+5. **Track PayPal, Bitcoin (BTC), and Interac** for incoming payments (bc1qydukx6u0mng2ax75usyzpwynqauzrvz94cejkz)
 6. **Iterate** based on user feedback
 
 ## Hosting Status

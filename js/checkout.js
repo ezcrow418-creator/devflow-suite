@@ -5,12 +5,19 @@
 // ─── Checkout Manager ───────────────────
 const CheckoutManager = {
   methods: {
+    paypal: {
+      name: 'PayPal',
+      icon: 'fab fa-paypal',
+      instructions: 'PayPal will open in a new tab. Send exactly $9.99.',
+      link: 'https://paypal.me/AlexOuellet277/9.99',
+      copyText: 'paypal.me/AlexOuellet277/9.99',
+    },
     crypto: {
       name: 'Crypto (Bitcoin)',
       icon: 'fas fa-coins',
       instructions: 'Send exactly $9.99 worth of BTC to the address below. Then enter your email.',
       link: null,
-      copyText: 'bc1q5qn2ck8dt5ul9uj2pasnnzrayefwpjkvfkya2q',
+      copyText: 'bc1qydukx6u0mng2ax75usyzpwynqauzrvz94cejkz',
     },
     interac: {
       name: 'Interac e-Transfer',
@@ -35,7 +42,7 @@ const CheckoutManager = {
 
   bindEvents() {
     // Payment method buttons
-    ['crypto', 'interac'].forEach(m => {
+    ['paypal', 'crypto', 'interac'].forEach(m => {
       const btn = document.getElementById(`btn-${m}`);
       btn?.addEventListener('click', () => this.selectPayment(m));
     });

@@ -6,7 +6,8 @@ A free, privacy-first PWA with 5 developer tools + a premium JavaScript Snippets
 ## Key Links
 - **Live App**: https://tinyurl.com/266m9fqn
 - **PDF Download**: https://tinyurl.com/266m9fqn/assets/data/JavaScript_Snippets_Vault.pdf
-- **Bitcoin (BTC)**: bc1q5qn2ck8dt5ul9uj2pasnnzrayefwpjkvfkya2q
+- **PayPal**: https://tinyurl.com/2a7chdhv
+- **Bitcoin (BTC)**: bc1qydukx6u0mng2ax75usyzpwynqauzrvz94cejkz
 
 ## Tweet Thread
 ```
@@ -20,7 +21,7 @@ A free, privacy-first PWA with 5 developer tools + a premium JavaScript Snippets
 
 5/ The PDF is syntax-highlighted, print-ready, and includes a Pro unlock key for DevFlow Suite.
 
-6/ Payment: Bitcoin (BTC) • Interac e-Transfer. No subscription. Just $9.99 once.
+6/ Payment: PayPal • Bitcoin (BTC) • Interac e-Transfer. No subscription. Just $9.99 once.
 
 7/ Live demo: https://tinyurl.com/266m9fqn
 
@@ -49,7 +50,7 @@ All tools work offline. No signup. No tracking. Installable as a PWA.
 
 **Premium Product**: JavaScript Snippets Vault — 52 production-ready JS snippets organized into 7 categories (DOM Manipulation, Async & Promises, Arrays & Objects, Strings & Utilities, Browser APIs, CSS & Layout, Performance & Debugging). Priced at $9.99 one-time. Includes a syntax-highlighted PDF and a Pro unlock key for DevFlow Suite.
 
-Payment via Bitcoin (BTC) or Interac e-Transfer.
+Payment via PayPal, Bitcoin (BTC), or Interac e-Transfer.
 
 **Live Demo**: https://tinyurl.com/266m9fqn
 
@@ -75,7 +76,7 @@ All tools work offline. No signup. No tracking. Installable as PWA. Built with v
 I also created a premium JavaScript Snippets Vault ($9.99 one-time) with 52 production-ready JS snippets across 7 categories. The PDF is syntax-highlighted and includes a Pro unlock key.
 
 URL: https://tinyurl.com/266m9fqn
-Bitcoin (BTC): bc1q5qn2ck8dt5ul9uj2pasnnzrayefwpjkvfkya2q
+Bitcoin (BTC): bc1qydukx6u0mng2ax75usyzpwynqauzrvz94cejkz
 Interac e-Transfer: smart.voucher.agentic@gmail.com
 
 48 hours. No team. No budget. Just AI + action.
@@ -127,7 +128,8 @@ I also created a **JavaScript Snippets Vault** — a $9.99 one-time PDF with 52 
 The PDF is syntax-highlighted, print-ready (38KB), and includes a Pro unlock key (`DEVFLOW-PRO-2025-JS-VAULT`) for DevFlow Suite.
 
 ### Payment Options
-- **Bitcoin (BTC)**: bc1q5qn2ck8dt5ul9uj2pasnnzrayefwpjkvfkya2q
+- **PayPal**: https://tinyurl.com/2a7chdhv
+- **Bitcoin (BTC)**: bc1qydukx6u0mng2ax75usyzpwynqauzrvz94cejkz
 - **Interac e-Transfer**: smart.voucher.agentic@gmail.com
 
 ## Live Demo

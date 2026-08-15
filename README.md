@@ -21,9 +21,9 @@
 - **Free**: All 5 core tools, offline access, dark/light mode — forever free.
 - **JavaScript Snippets Vault** — $9.99 one-time: 52 production-ready JS snippets organized into 7 categories, as a syntax-highlighted PDF. Includes a Pro unlock key for DevFlow Suite.
 
-**Payment methods**: Bitcoin (BTC) · Interac e-Transfer
+**Payment methods**: PayPal · Bitcoin (BTC) · Interac e-Transfer
 
-👉 [Live Demo](https://t-0-cd4230b52f7fa413.tunnel.pinfra.io) | 💳 [Bitcoin (BTC)](bc1q5qn2ck8dt5ul9uj2pasnnzrayefwpjkvfkya2q)
+👉 [Live Demo](https://t-0-cd4230b52f7fa413.tunnel.pinfra.io) | 💳 [PayPal](https://tinyurl.com/2a7chdhv) | ₿ [Bitcoin](bc1qydukx6u0mng2ax75usyzpwynqauzrvz94cejkz)
 
 ## 🛠️ Tech Stack
 
@@ -31,7 +31,7 @@
 - **PWA**: Service Worker caching, Web App Manifest, offline support
 - **PDF Generation**: Python + ReportLab (52 syntax-highlighted snippets)
 - **Hosting**: Prime Tunnel (free tier)
-- **Payment**: Bitcoin (BTC), Interac e-Transfer
+- **Payment**: PayPal · Bitcoin (BTC) · Interac e-Transfer
 
 ## 📁 File Structure
 
@@ -107,7 +107,7 @@ Buy the PDF → Get the Pro key → Unlock all Pro features.
 Found a bug? Want a feature? Have a snippet to add?
 
 - Open an issue
-- Or reach out via Bitcoin (BTC): `bc1q5qn2ck8dt5ul9uj2pasnnzrayefwpjkvfkya2q` or Interac e-Transfer: `smart.voucher.agentic@gmail.com`
+- Or reach out via [PayPal](https://tinyurl.com/2a7chdhv) · Bitcoin (BTC): `bc1qydukx6u0mng2ax75usyzpwynqauzrvz94cejkz` or Interac e-Transfer: `smart.voucher.agentic@gmail.com`
 
 ---
 

@@ -20,20 +20,22 @@
   - 52 production-ready JS snippets across 7 categories
   - Syntax-highlighted PDF (38KB, print-ready)
   - Pro unlock key for DevFlow Suite
-  - Payment: Bitcoin (BTC) · Interac e-Transfer
+  - Payment: PayPal · Bitcoin (BTC) · Interac e-Transfer
 
 ## 💻 Tech
 - **Frontend**: Vanilla JS + Tailwind CSS (no frameworks, 313 lines CSS, 244 lines app.js, 396 lines tools.js)
 - **PWA**: Service Worker, Web App Manifest, offline support, installable
 - **PDF**: Python + ReportLab (52 snippets, syntax-highlighted)
 - **Hosting**: Prime Tunnel (free tier)
-- **Payment**: Bitcoin (BTC), Interac e-Transfer
+- **Payment**: PayPal · Bitcoin (BTC) · Interac e-Transfer
 
 ## 📊 What's Live
 - ✅ Web app: https://t-0-cd4230b52f7fa413.tunnel.pinfra.io
 - ✅ PDF download: .../assets/data/JavaScript_Snippets_Vault.pdf
 - ✅ Checkout → download flow with Pro key unlock
-- ✅ Bitcoin (BTC) payment: bc1q5qn2ck8dt5ul9uj2pasnnzrayefwpjkvfkya2q (BTC)
+- ✅ Bitcoin (BTC) payment: bc1qydukx6u0mng2ax75usyzpwynqauzrvz94cejkz
+- ✅ PayPal payment: https://tinyurl.com/2a7chdhv
+- ✅ Interac e-Transfer payment: smart.voucher.agentic@gmail.com
 
 ## 🏗️ Architecture
 ```
@@ -44,7 +46,7 @@ User → Landing Page → Dashboard (6 tools + Vault card)
                           JavaScript Vault card
                                     ↓
                             Checkout Page
-                      (Bitcoin/Interac e-Transfer)
+                      (PayPal/Bitcoin/Interac e-Transfer)
                                     ↓
                             Download Page
                     (PDF + Pro Unlock Key: DEVFLOW-PRO-2025-JS-VAULT)
@@ -59,7 +61,8 @@ User → Landing Page → Dashboard (6 tools + Vault card)
 
 ## 🔗 Links
 - **Live Demo**: https://t-0-cd4230b52f7fa413.tunnel.pinfra.io
-- **Bitcoin (BTC)**: bc1q5qn2ck8dt5ul9uj2pasnnzrayefwpjkvfkya2q (BTC)
+- **PayPal**: https://tinyurl.com/2a7chdhv
+- **Bitcoin (BTC)**: bc1qydukx6u0mng2ax75usyzpwynqauzrvz94cejkz
 - **PDF**: https://t-0-cd4230b52f7fa413.tunnel.pinfra.io/assets/data/JavaScript_Snippets_Vault.pdf
 
 ---
