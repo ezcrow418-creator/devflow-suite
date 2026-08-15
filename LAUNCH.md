@@ -20,20 +20,20 @@
   - 52 production-ready JS snippets across 7 categories
   - Syntax-highlighted PDF (38KB, print-ready)
   - Pro unlock key for DevFlow Suite
-  - Payment: PayPal · Venmo · Crypto · Interac e-Transfer
+  - Payment: Bitcoin (BTC) · Interac e-Transfer
 
 ## 💻 Tech
 - **Frontend**: Vanilla JS + Tailwind CSS (no frameworks, 313 lines CSS, 244 lines app.js, 396 lines tools.js)
 - **PWA**: Service Worker, Web App Manifest, offline support, installable
 - **PDF**: Python + ReportLab (52 snippets, syntax-highlighted)
 - **Hosting**: Prime Tunnel (free tier)
-- **Payment**: PayPal.Me, Venmo, Crypto, Interac e-Transfer
+- **Payment**: Bitcoin (BTC), Interac e-Transfer
 
 ## 📊 What's Live
 - ✅ Web app: https://t-2-0984c62f98f2a28b.tunnel.pinfra.io
 - ✅ PDF download: .../assets/data/JavaScript_Snippets_Vault.pdf
 - ✅ Checkout → download flow with Pro key unlock
-- ✅ PayPal.Me payment: https://paypal.me/aiforgestudio/9.99
+- ✅ Bitcoin (BTC) payment: bc1q5qn2ck8dt5ul9uj2pasnnzrayefwpjkvfkya2q (BTC)
 
 ## 🏗️ Architecture
 ```
@@ -44,7 +44,7 @@ User → Landing Page → Dashboard (6 tools + Vault card)
                           JavaScript Vault card
                                     ↓
                             Checkout Page
-                      (PayPal/Venmo/Crypto/Interac e-Transfer)
+                      (Bitcoin/Interac e-Transfer)
                                     ↓
                             Download Page
                     (PDF + Pro Unlock Key: DEVFLOW-PRO-2025-JS-VAULT)
@@ -59,7 +59,7 @@ User → Landing Page → Dashboard (6 tools + Vault card)
 
 ## 🔗 Links
 - **Live Demo**: https://t-2-0984c62f98f2a28b.tunnel.pinfra.io
-- **PayPal**: https://paypal.me/aiforgestudio/9.99
+- **Bitcoin (BTC)**: bc1q5qn2ck8dt5ul9uj2pasnnzrayefwpjkvfkya2q (BTC)
 - **PDF**: https://t-2-0984c62f98f2a28b.tunnel.pinfra.io/assets/data/JavaScript_Snippets_Vault.pdf
 
 ---

@@ -5,20 +5,6 @@
 // ─── Checkout Manager ───────────────────
 const CheckoutManager = {
   methods: {
-    paypal: {
-      name: 'PayPal',
-      icon: 'fab fa-paypal',
-      instructions: 'PayPal will open in a new tab. Send exactly $9.99.',
-      link: 'https://paypal.me/aiforgestudio/9.99',
-      copyText: 'paypal.me/aiforgestudio/9.99',
-    },
-    venmo: {
-      name: 'Venmo',
-      icon: 'fas fa-mobile-alt',
-      instructions: 'Open Venmo app and send exactly $9.99. Then return to enter your email.',
-      link: null,
-      copyText: '@aiforgestudio',
-    },
     crypto: {
       name: 'Crypto (Bitcoin)',
       icon: 'fas fa-coins',
@@ -49,7 +35,7 @@ const CheckoutManager = {
 
   bindEvents() {
     // Payment method buttons
-    ['paypal', 'venmo', 'crypto', 'interac'].forEach(m => {
+    ['crypto', 'interac'].forEach(m => {
       const btn = document.getElementById(`btn-${m}`);
       btn?.addEventListener('click', () => this.selectPayment(m));
     });
@@ -97,7 +83,7 @@ const CheckoutManager = {
     instrEl?.classList.remove('hidden');
     formEl?.classList.remove('hidden');
 
-    // For PayPal, open the payment link
+    // For methods with a link, open it in a new tab
     if (m.link) {
       window.open(m.link, '_blank', 'width=600,height=800');
     }

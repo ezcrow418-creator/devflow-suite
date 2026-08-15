@@ -6,7 +6,7 @@ A free, privacy-first PWA with 5 developer tools + a premium JavaScript Snippets
 ## Key Links
 - **Live App**: https://tinyurl.com/28qk3hyx
 - **PDF Download**: https://tinyurl.com/28qk3hyx/assets/data/JavaScript_Snippets_Vault.pdf
-- **PayPal**: https://tinyurl.com/23n7cfb4
+- **Bitcoin (BTC)**: smart.voucher.agentic@gmail.com (Interac)
 
 ## Tweet Thread
 ```
@@ -20,11 +20,11 @@ A free, privacy-first PWA with 5 developer tools + a premium JavaScript Snippets
 
 5/ The PDF is syntax-highlighted, print-ready, and includes a Pro unlock key for DevFlow Suite.
 
-6/ Payment: PayPal • Venmo • Crypto (Bitcoin) • Interac e-Transfer. No subscription. Just $9.99 once.
+6/ Payment: Bitcoin (BTC) • Interac e-Transfer. No subscription. Just $9.99 once.
 
 7/ Live demo: https://tinyurl.com/28qk3hyx
 
-8/ Buy now: https://tinyurl.com/23n7cfb4
+8/ Buy now: smart.voucher.agentic@gmail.com (Interac)
 
 9/ Built by one person with AI tools in 48 hours. Started from zero. Ended with a live product + paid digital product.
 
@@ -49,7 +49,7 @@ All tools work offline. No signup. No tracking. Installable as a PWA.
 
 **Premium Product**: JavaScript Snippets Vault — 52 production-ready JS snippets organized into 7 categories (DOM Manipulation, Async & Promises, Arrays & Objects, Strings & Utilities, Browser APIs, CSS & Layout, Performance & Debugging). Priced at $9.99 one-time. Includes a syntax-highlighted PDF and a Pro unlock key for DevFlow Suite.
 
-Payment via PayPal, Venmo, Crypto (Bitcoin), or Interac e-Transfer.
+Payment via Bitcoin (BTC) or Interac e-Transfer.
 
 **Live Demo**: https://tinyurl.com/28qk3hyx
 
@@ -75,7 +75,8 @@ All tools work offline. No signup. No tracking. Installable as PWA. Built with v
 I also created a premium JavaScript Snippets Vault ($9.99 one-time) with 52 production-ready JS snippets across 7 categories. The PDF is syntax-highlighted and includes a Pro unlock key.
 
 URL: https://tinyurl.com/28qk3hyx
-PayPal: https://tinyurl.com/23n7cfb4
+Bitcoin (BTC): bc1q5qn2ck8dt5ul9uj2pasnnzrayefwpjkvfkya2q
+Interac e-Transfer: smart.voucher.agentic@gmail.com
 
 48 hours. No team. No budget. Just AI + action.
 ```
@@ -126,10 +127,8 @@ I also created a **JavaScript Snippets Vault** — a $9.99 one-time PDF with 52 
 The PDF is syntax-highlighted, print-ready (38KB), and includes a Pro unlock key (`DEVFLOW-PRO-2025-JS-VAULT`) for DevFlow Suite.
 
 ### Payment Options
-- PayPal: https://tinyurl.com/23n7cfb4
-- Venmo: @aiforgestudio
-- Bitcoin: bc1q5qn2ck8dt5ul9uj2pasnnzrayefwpjkvfkya2q
-- Interac e-Transfer: smart.voucher.agentic@gmail.com
+- **Bitcoin (BTC)**: bc1q5qn2ck8dt5ul9uj2pasnnzrayefwpjkvfkya2q
+- **Interac e-Transfer**: smart.voucher.agentic@gmail.com
 
 ## Live Demo
 https://tinyurl.com/28qk3hyx
@@ -160,7 +159,7 @@ I present: **DevFlow Suite** — a free PWA with 5 developer tools (Snippets, Re
 The premium product includes 52 production-ready JavaScript snippets organized into 7 categories — all syntax-highlighted in a printable PDF.
 
 Live demo: https://tinyurl.com/28qk3hyx
-Buy now: https://tinyurl.com/23n7cfb4
+Buy now: smart.voucher.agentic@gmail.com (Interac)
 
 #SideProject #WebDevelopment #JavaScript #PWA #BuildInPublic
 ```

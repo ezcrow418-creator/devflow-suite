@@ -21,9 +21,9 @@
 - **Free**: All 5 core tools, offline access, dark/light mode — forever free.
 - **JavaScript Snippets Vault** — $9.99 one-time: 52 production-ready JS snippets organized into 7 categories, as a syntax-highlighted PDF. Includes a Pro unlock key for DevFlow Suite.
 
-**Payment methods**: PayPal · Venmo · Crypto (Bitcoin) · Interac e-Transfer
+**Payment methods**: Bitcoin (BTC) · Interac e-Transfer
 
-👉 [Live Demo](https://t-2-0984c62f98f2a28b.tunnel.pinfra.io) | 💳 [PayPal.Me](https://paypal.me/aiforgestudio/9.99)
+👉 [Live Demo](https://t-2-0984c62f98f2a28b.tunnel.pinfra.io) | 💳 [Bitcoin (BTC)](bc1q5qn2ck8dt5ul9uj2pasnnzrayefwpjkvfkya2q (BTC))
 
 ## 🛠️ Tech Stack
 
@@ -31,7 +31,7 @@
 - **PWA**: Service Worker caching, Web App Manifest, offline support
 - **PDF Generation**: Python + ReportLab (52 syntax-highlighted snippets)
 - **Hosting**: Prime Tunnel (free tier)
-- **Payment**: PayPal.Me, Venmo, Crypto, Interac e-Transfer
+- **Payment**: Bitcoin (BTC), Interac e-Transfer
 
 ## 📁 File Structure
 
@@ -107,7 +107,7 @@ Buy the PDF → Get the Pro key → Unlock all Pro features.
 Found a bug? Want a feature? Have a snippet to add?
 
 - Open an issue
-- Or reach out via [PayPal.Me/aiforgestudio](https://paypal.me/aiforgestudio)
+- Or reach out via [Bitcoin (BTC)/aiforgestudio](https://smart.voucher.agentic@gmail.com)
 
 ---
 
