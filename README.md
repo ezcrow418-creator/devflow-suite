@@ -21,7 +21,7 @@
 - **Free**: All 5 core tools, offline access, dark/light mode — forever free.
 - **JavaScript Snippets Vault** — $9.99 one-time: 52 production-ready JS snippets organized into 7 categories, as a syntax-highlighted PDF. Includes a Pro unlock key for DevFlow Suite.
 
-**Payment methods**: PayPal · Venmo · Crypto (Bitcoin) · Zelle
+**Payment methods**: PayPal · Venmo · Crypto (Bitcoin) · Interac e-Transfer
 
 👉 [Live Demo](https://t-0-47300579b9d40f3f.tunnel.pinfra.io) | 💳 [PayPal.Me](https://paypal.me/aiforgestudio/9.99)
 
@@ -31,7 +31,7 @@
 - **PWA**: Service Worker caching, Web App Manifest, offline support
 - **PDF Generation**: Python + ReportLab (52 syntax-highlighted snippets)
 - **Hosting**: Prime Tunnel (free tier)
-- **Payment**: PayPal.Me, Venmo, Crypto, Zelle
+- **Payment**: PayPal.Me, Venmo, Crypto, Interac e-Transfer
 
 ## 📁 File Structure
 

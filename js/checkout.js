@@ -24,14 +24,14 @@ const CheckoutManager = {
       icon: 'fas fa-coins',
       instructions: 'Send exactly $9.99 worth of BTC to the address below. Then enter your email.',
       link: null,
-      copyText: 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkf5h3cxm',
+      copyText: 'bc1q5qn2ck8dt5ul9uj2pasnnzrayefwpjkvfkya2q',
     },
-    zelle: {
-      name: 'Zelle',
-      icon: 'fas fa-building',
-      instructions: 'Send exactly $9.99 to the Zelle email below.',
+    interac: {
+      name: 'Interac e-Transfer',
+      icon: 'fas fa-university',
+      instructions: 'Send exactly $9.99 via Interac e-Transfer to the email below. Then enter your email to unlock the download.',
       link: null,
-      copyText: 'payment@aiforgestudio.com',
+      copyText: 'smart.voucher.agentic@gmail.com',
     },
   },
 
@@ -49,7 +49,7 @@ const CheckoutManager = {
 
   bindEvents() {
     // Payment method buttons
-    ['paypal', 'venmo', 'crypto', 'zelle'].forEach(m => {
+    ['paypal', 'venmo', 'crypto', 'interac'].forEach(m => {
       const btn = document.getElementById(`btn-${m}`);
       btn?.addEventListener('click', () => this.selectPayment(m));
     });

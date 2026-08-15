@@ -20,7 +20,7 @@ A free, privacy-first PWA with 5 developer tools + a premium JavaScript Snippets
 
 5/ The PDF is syntax-highlighted, print-ready, and includes a Pro unlock key for DevFlow Suite.
 
-6/ Payment: PayPal • Venmo • Crypto (Bitcoin) • Zelle. No subscription. Just $9.99 once.
+6/ Payment: PayPal • Venmo • Crypto (Bitcoin) • Interac e-Transfer. No subscription. Just $9.99 once.
 
 7/ Live demo: https://tinyurl.com/29jpf5t5
 
@@ -49,7 +49,7 @@ All tools work offline. No signup. No tracking. Installable as a PWA.
 
 **Premium Product**: JavaScript Snippets Vault — 52 production-ready JS snippets organized into 7 categories (DOM Manipulation, Async & Promises, Arrays & Objects, Strings & Utilities, Browser APIs, CSS & Layout, Performance & Debugging). Priced at $9.99 one-time. Includes a syntax-highlighted PDF and a Pro unlock key for DevFlow Suite.
 
-Payment via PayPal, Venmo, Crypto (Bitcoin), or Zelle.
+Payment via PayPal, Venmo, Crypto (Bitcoin), or Interac e-Transfer.
 
 **Live Demo**: https://tinyurl.com/29jpf5t5
 
@@ -128,8 +128,8 @@ The PDF is syntax-highlighted, print-ready (38KB), and includes a Pro unlock key
 ### Payment Options
 - PayPal: https://tinyurl.com/23n7cfb4
 - Venmo: @aiforgestudio
-- Bitcoin: bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkf5h3cxm
-- Zelle: payment@aiforgestudio.com
+- Bitcoin: bc1q5qn2ck8dt5ul9uj2pasnnzrayefwpjkvfkya2q
+- Interac e-Transfer: smart.voucher.agentic@gmail.com
 
 ## Live Demo
 https://tinyurl.com/29jpf5t5

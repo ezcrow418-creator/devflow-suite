@@ -20,14 +20,14 @@
   - 52 production-ready JS snippets across 7 categories
   - Syntax-highlighted PDF (38KB, print-ready)
   - Pro unlock key for DevFlow Suite
-  - Payment: PayPal · Venmo · Crypto · Zelle
+  - Payment: PayPal · Venmo · Crypto · Interac e-Transfer
 
 ## 💻 Tech
 - **Frontend**: Vanilla JS + Tailwind CSS (no frameworks, 313 lines CSS, 244 lines app.js, 396 lines tools.js)
 - **PWA**: Service Worker, Web App Manifest, offline support, installable
 - **PDF**: Python + ReportLab (52 snippets, syntax-highlighted)
 - **Hosting**: Prime Tunnel (free tier)
-- **Payment**: PayPal.Me, Venmo, Crypto, Zelle
+- **Payment**: PayPal.Me, Venmo, Crypto, Interac e-Transfer
 
 ## 📊 What's Live
 - ✅ Web app: https://t-0-47300579b9d40f3f.tunnel.pinfra.io
@@ -44,7 +44,7 @@ User → Landing Page → Dashboard (6 tools + Vault card)
                           JavaScript Vault card
                                     ↓
                             Checkout Page
-                      (PayPal/Venmo/Crypto/Zelle)
+                      (PayPal/Venmo/Crypto/Interac e-Transfer)
                                     ↓
                             Download Page
                     (PDF + Pro Unlock Key: DEVFLOW-PRO-2025-JS-VAULT)

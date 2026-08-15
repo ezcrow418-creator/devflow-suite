@@ -16,7 +16,7 @@ A complete **free PWA** with 5 developer tools + a **premium JavaScript Snippets
 2. `css/styles.css` — Tailwind + dark mode + PWA styles
 3. `js/app.js` — ThemeManager, Router (10 views), PWA handler, Analytics (CountAPI)
 4. `js/tools.js` — SnippetManager, RegexTester, JsonFormatter, ColorGenerator, MarkdownEditor
-5. `js/checkout.js` — CheckoutManager (PayPal/Venmo/Crypto/Zelle), DownloadManager
+5. `js/checkout.js` — CheckoutManager (PayPal/Venmo/Crypto/Interac e-Transfer), DownloadManager
 6. `manifest.json` — PWA manifest (8 icon sizes, display=standalone)
 7. `sw.js` — Service worker (offline cache for HTML/CSS/JS/CDN)
 8. `robots.txt` — Sitemap reference
@@ -29,7 +29,7 @@ A complete **free PWA** with 5 developer tools + a **premium JavaScript Snippets
 ## Monetization Flow (End-to-End)
 1. User visits landing page → **View the 5 free tools or "Snippets Vault" card**
 2. Click "Snippets Vault" card → **Navigates to checkout view**
-3. Select payment (PayPal/Venmo/Crypto/Zelle) → **Shows payment instructions**
+3. Select payment (PayPal/Venmo/Crypto/Interac e-Transfer) → **Shows payment instructions**
 4. Send payment → **Enter email + click "Unlock Download"**
 5. → **Navigates to download view**
 6. Click "Download PDF" → **Downloads JavaScript_Snippets_Vault.pdf**
