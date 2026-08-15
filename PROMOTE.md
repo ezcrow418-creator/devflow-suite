@@ -4,8 +4,8 @@
 A free, privacy-first PWA with 5 developer tools + a premium JavaScript Snippets Vault ($9.99 one-time). Built in 48 hours with zero budget.
 
 ## Key Links
-- **Live App**: https://tinyurl.com/266m9fqn
-- **PDF Download**: https://tinyurl.com/266m9fqn/assets/data/JavaScript_Snippets_Vault.pdf
+- **Live App**: https://tinyurl.com/2ymcxz6g
+- **PDF Download**: https://tinyurl.com/2ymcxz6g/assets/data/JavaScript_Snippets_Vault.pdf
 - **PayPal**: https://tinyurl.com/2a7chdhv
 - **Bitcoin (BTC)**: bc1qydukx6u0mng2ax75usyzpwynqauzrvz94cejkz
 
@@ -23,9 +23,9 @@ A free, privacy-first PWA with 5 developer tools + a premium JavaScript Snippets
 
 6/ Payment: PayPal • Bitcoin (BTC) • Interac e-Transfer. No subscription. Just $9.99 once.
 
-7/ Live demo: https://tinyurl.com/266m9fqn
+7/ Live demo: https://tinyurl.com/2ymcxz6g
 
-8/ Buy now: https://tinyurl.com/266m9fqn
+8/ Buy now: https://tinyurl.com/2ymcxz6g
 
 9/ Built by one person with AI tools in 48 hours. Started from zero. Ended with a live product + paid digital product.
 
@@ -52,7 +52,7 @@ All tools work offline. No signup. No tracking. Installable as a PWA.
 
 Payment via PayPal, Bitcoin (BTC), or Interac e-Transfer.
 
-**Live Demo**: https://tinyurl.com/266m9fqn
+**Live Demo**: https://tinyurl.com/2ymcxz6g
 
 Built entirely with vanilla JavaScript + Tailwind CSS in 48 hours with zero budget. No frameworks, no backend, no excuses.
 
@@ -75,7 +75,7 @@ All tools work offline. No signup. No tracking. Installable as PWA. Built with v
 
 I also created a premium JavaScript Snippets Vault ($9.99 one-time) with 52 production-ready JS snippets across 7 categories. The PDF is syntax-highlighted and includes a Pro unlock key.
 
-URL: https://tinyurl.com/266m9fqn
+URL: https://tinyurl.com/2ymcxz6g
 Bitcoin (BTC): bc1qydukx6u0mng2ax75usyzpwynqauzrvz94cejkz
 Interac e-Transfer: smart.voucher.agentic@gmail.com
 
@@ -133,7 +133,7 @@ The PDF is syntax-highlighted, print-ready (38KB), and includes a Pro unlock key
 - **Interac e-Transfer**: smart.voucher.agentic@gmail.com
 
 ## Live Demo
-https://tinyurl.com/266m9fqn
+https://tinyurl.com/2ymcxz6g
 
 ## The Journey
 From a blank cursor to a deployed PWA with a paid digital product — all in 48 hours, with zero budget. Here's what I learned along the way...
@@ -160,8 +160,8 @@ I present: **DevFlow Suite** — a free PWA with 5 developer tools (Snippets, Re
 
 The premium product includes 52 production-ready JavaScript snippets organized into 7 categories — all syntax-highlighted in a printable PDF.
 
-Live demo: https://tinyurl.com/266m9fqn
-Buy now: https://tinyurl.com/266m9fqn
+Live demo: https://tinyurl.com/2ymcxz6g
+Buy now: https://tinyurl.com/2ymcxz6g
 
 #SideProject #WebDevelopment #JavaScript #PWA #BuildInPublic
 ```

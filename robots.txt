@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://t-0-cd4230b52f7fa413.tunnel.pinfra.io/sitemap.xml
+Sitemap: https://t-1-66e873563d81ce47.tunnel.pinfra.io/sitemap.xml

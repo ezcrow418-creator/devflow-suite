@@ -30,7 +30,7 @@
 - **Payment**: PayPal · Bitcoin (BTC) · Interac e-Transfer
 
 ## 📊 What's Live
-- ✅ Web app: https://t-0-cd4230b52f7fa413.tunnel.pinfra.io
+- ✅ Web app: https://t-1-66e873563d81ce47.tunnel.pinfra.io
 - ✅ PDF download: .../assets/data/JavaScript_Snippets_Vault.pdf
 - ✅ Checkout → download flow with Pro key unlock
 - ✅ Bitcoin (BTC) payment: bc1qydukx6u0mng2ax75usyzpwynqauzrvz94cejkz
@@ -60,10 +60,10 @@ User → Landing Page → Dashboard (6 tools + Vault card)
 5. Iterate on features
 
 ## 🔗 Links
-- **Live Demo**: https://t-0-cd4230b52f7fa413.tunnel.pinfra.io
+- **Live Demo**: https://t-1-66e873563d81ce47.tunnel.pinfra.io
 - **PayPal**: https://tinyurl.com/2a7chdhv
 - **Bitcoin (BTC)**: bc1qydukx6u0mng2ax75usyzpwynqauzrvz94cejkz
-- **PDF**: https://t-0-cd4230b52f7fa413.tunnel.pinfra.io/assets/data/JavaScript_Snippets_Vault.pdf
+- **PDF**: https://t-1-66e873563d81ce47.tunnel.pinfra.io/assets/data/JavaScript_Snippets_Vault.pdf
 
 ---
 *Built with AI in Québec, Canada. Made with ❤️ and vanilla JavaScript.*

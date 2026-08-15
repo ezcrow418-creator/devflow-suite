@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://t-0-cd4230b52f7fa413.tunnel.pinfra.io/</loc>
+    <loc>https://t-1-66e873563d81ce47.tunnel.pinfra.io/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://t-0-cd4230b52f7fa413.tunnel.pinfra.io/#checkout</loc>
+    <loc>https://t-1-66e873563d81ce47.tunnel.pinfra.io/#checkout</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://t-0-cd4230b52f7fa413.tunnel.pinfra.io/assets/data/JavaScript_Snippets_Vault.pdf</loc>
+    <loc>https://t-1-66e873563d81ce47.tunnel.pinfra.io/assets/data/JavaScript_Snippets_Vault.pdf</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
