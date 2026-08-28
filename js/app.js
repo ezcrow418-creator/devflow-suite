@@ -471,6 +471,13 @@ const Shortcuts = {
       return;
     }
 
+    // ── F11: Toggle zen mode ──
+    if (e.key === 'F11') {
+      e.preventDefault();
+      ZenMode.toggle();
+      return;
+    }
+
     // ── Skip remaining shortcuts if typing in an input ──
     if (this._inInput()) return;
 
@@ -615,6 +622,43 @@ const Shortcuts = {
         this._hidePalette();
       });
     });
+  }
+};
+
+// ─── Zen Mode (distraction-free) ────
+const ZenMode = {
+  _active: false,
+
+  init() {
+    // Create floating toggle button
+    const btn = document.createElement('button');
+    btn.className = 'zen-toggle';
+    btn.id = 'zen-toggle-btn';
+    btn.innerHTML = '<i class="fas fa-expand"></i>';
+    btn.title = 'Toggle zen mode (F11)';
+    btn.setAttribute('aria-label', 'Toggle zen mode');
+    btn.addEventListener('click', () => this.toggle());
+    document.body.appendChild(btn);
+  },
+
+  toggle() {
+    this._active = !this._active;
+    document.body.classList.toggle('zen-mode', this._active);
+
+    const btn = document.getElementById('zen-toggle-btn');
+    if (btn) {
+      btn.innerHTML = this._active
+        ? '<i class="fas fa-compress"></i>'
+        : '<i class="fas fa-expand"></i>';
+      btn.title = this._active ? 'Exit zen mode (F11)' : 'Enter zen mode (F11)';
+    }
+
+    // Announce to screen reader
+    const announcer = document.getElementById('a11y-announcer');
+    if (announcer) {
+      announcer.textContent = this._active ? 'Zen mode enabled' : 'Zen mode disabled';
+      setTimeout(() => { announcer.textContent = ''; }, 2000);
+    }
   }
 };
 
@@ -787,6 +831,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   PWA.init();
   Analytics.init();
   Shortcuts.init();
+  ZenMode.init();
   OnboardingTour.init();
 
   // Listen for online/offline status from SW

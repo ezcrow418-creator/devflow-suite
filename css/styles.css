@@ -415,6 +415,94 @@ input[type="color"] {
   transition: background-color 0.4s ease, color 0.2s ease, border-color 0.4s ease, box-shadow 0.4s ease !important;
 }
 
+/* ===== ZEN MODE (distraction-free) ===== */
+body.zen-mode #landing-nav,
+body.zen-mode [id^="view-"] > .max-w-6xl > .flex,
+body.zen-mode [id^="view-"] > .max-w-6xl > nav[aria-label="Breadcrumb"],
+body.zen-mode #bulk-actions,
+body.zen-mode #snippet-form-modal ~ .flex,
+body.zen-mode [id^="view-"] > .max-w-6xl > .mb-6:first-child > :not(#btn-add-snippet):not(#snippet-search):not(.inline-flex),
+body.zen-mode [id^="view-"] > .max-w-6xl > .mb-6:first-child > .relative,
+body.zen-mode footer {
+  display: none !important;
+}
+
+body.zen-mode [id^="view-"] {
+  padding-top: 0.5rem !important;
+}
+
+body.zen-mode [id^="view-"] > .max-w-6xl {
+  padding-top: 0 !important;
+}
+
+body.zen-mode .zen-toggle {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+.zen-toggle {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 90;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f8, #8b5cf6);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+  transition: all 0.3s;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.zen-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+}
+
+body.zen-mode .zen-toggle {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Zen mode: expand markdown preview */
+body.zen-mode #view-markdown .grid.lg\:grid-cols-2 {
+  grid-template-columns: 1fr !important;
+}
+
+body.zen-mode #md-input {
+  min-height: 80vh;
+}
+
+/* Zen mode: expand JSON input */
+body.zen-mode #json-input {
+  min-height: 80vh;
+}
+
+/* Zen mode: expand regex test area */
+body.zen-mode #regex-test {
+  min-height: 50vh;
+}
+
+/* Zen mode: hide snippet toolbar extras */
+body.zen-mode #snippet-select-all,
+body.zen-mode #snippet-select-all + label {
+  display: none !important;
+}
+
+body.zen-mode #btn-export-snippets,
+body.zen-mode #btn-import-snippets,
+body.zen-mode .inline-flex.ml-2 {
+  display: none !important;
+}
+
 /* ===== ACCESSIBILITY (a11y) ===== */
 
 /* Screen reader only */
