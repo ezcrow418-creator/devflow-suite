@@ -495,7 +495,7 @@
       <div class="text-center">
         <p class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">💾 Data stored in your browser. No servers. No tracking.</p>
         <p class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm mt-0.5 sm:mt-1 hidden sm:block">✨ Install as PWA for offline access on any device.</p>
-        <button onclick="localStorage.removeItem('devflow_tour_done');OnboardingTour.start()" class="mt-2 text-xs text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 transition-colors hidden sm:inline-flex items-center gap-1">
+        <button onclick="localStorage.removeItem('devflow_tour_done');if(typeof DB!=='undefined')DB.setSetting('tour_done',false).catch(()=>{});OnboardingTour.start()" class="mt-2 text-xs text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 transition-colors hidden sm:inline-flex items-center gap-1">
           <i class="fas fa-redo text-[10px]" aria-hidden="true"></i> Replay tour
         </button>
         <p class="text-gray-400 dark:text-gray-500 text-xs mt-2 sm:mt-3 hidden sm:block">

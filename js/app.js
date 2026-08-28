@@ -212,8 +212,8 @@ const Router = {
       this.navigate('checkout');
     });
 
-    // Pro status check (uses obfuscated keys from checkout.js)
-    const isPro = (typeof _sec !== 'undefined' && _sec.get('pro') === '1') || localStorage.getItem('devflow_pro') === 'true';
+    // Pro status check (uses cached value from _sec.loadAll())
+    const isPro = (typeof _sec !== 'undefined' && _sec.getSync('pro') === '1') || localStorage.getItem('devflow_pro') === 'true';
     const buyBtn = document.getElementById('btn-buy-pro');
     if (buyBtn) {
       buyBtn.innerHTML = isPro
@@ -610,10 +610,16 @@ const OnboardingTour = {
     }
   ],
 
-  init() {
-    const seen = localStorage.getItem('devflow_tour_done');
+  async init() {
+    let seen = false;
+    try {
+      if (typeof DB !== 'undefined') {
+        await DB.ready();
+        seen = await DB.setting('tour_done');
+      }
+    } catch (e) { /* fallback */ }
+    if (!seen) seen = localStorage.getItem('devflow_tour_done');
     if (!seen) {
-      // Wait for dashboard to be visible, then start
       setTimeout(() => this.start(), 600);
     }
   },
@@ -715,6 +721,9 @@ const OnboardingTour = {
     document.getElementById('tour-spotlight').style.display = 'none';
     document.getElementById('tour-tooltip')?.classList.remove('visible');
     localStorage.setItem('devflow_tour_done', '1');
+    if (typeof DB !== 'undefined' && !DB._useFallback) {
+      DB.setSetting('tour_done', true).catch(() => {});
+    }
   }
 };
 
