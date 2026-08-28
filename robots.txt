@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://devflow-suite.tunnel.pinfra.io/sitemap.xml
