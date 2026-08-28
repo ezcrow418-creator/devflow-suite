@@ -154,6 +154,11 @@ const SnippetManager = {
       this.export();
     });
 
+    // PDF export
+    document.getElementById('btn-export-pdf')?.addEventListener('click', () => {
+      this.exportPDF();
+    });
+
     // Import
     document.getElementById('btn-import-snippets')?.addEventListener('click', () => {
       document.getElementById('snippet-import-file')?.click();
@@ -609,6 +614,76 @@ n    const headerCb = document.getElementById('snippet-select-all');
     } else {
       this._shareFallback(shareData);
     }
+  },
+
+  // ── Export PDF (print-to-PDF) ────────
+  exportPDF(snippetIds = null) {
+    const list = snippetIds
+      ? this.snippets.filter(s => snippetIds.has(s.id))
+      : this.snippets;
+
+    if (list.length === 0) {
+      showNotification('No snippets to export', 'warning', 2000);
+      return;
+    }
+
+    const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#3b82f8';
+
+    const snippetsHTML = list.map(s => `
+      <div class="snippet">
+        <div class="snippet-header">
+          <h2>${escapeHtml(s.title)}</h2>
+          <span class="lang-badge">${escapeHtml(s.language)}</span>
+          ${s.tags ? s.tags.split(',').map(t => `<span class="tag-badge">${escapeHtml(t.trim())}</span>`).join('') : ''}
+        </div>
+        <pre><code class="language-${s.language}">${escapeHtml(s.code)}</code></pre>
+      </div>
+    `).join('');
+
+    const html = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>DevFlow Suite — Snippets Export</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prismjs/1.29.0/themes/prism.min.css" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 40px; color: #1f2937; }
+    .header { text-align: center; margin-bottom: 32px; padding-bottom: 16px; border-bottom: 2px solid ${accentColor}; }
+    .header h1 { font-size: 24px; color: ${accentColor}; margin-bottom: 4px; }
+    .header p { font-size: 12px; color: #6b7280; }
+    .snippet { margin-bottom: 24px; page-break-inside: avoid; }
+    .snippet-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .snippet-header h2 { font-size: 16px; font-weight: 700; }
+    .lang-badge { font-size: 11px; padding: 2px 8px; background: ${accentColor}; color: white; border-radius: 4px; font-weight: 600; }
+    .tag-badge { font-size: 10px; padding: 2px 6px; background: #f3f4f6; color: #6b7280; border-radius: 4px; }
+    pre { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; overflow-x: auto; font-size: 12px; line-height: 1.5; }
+    code { font-family: 'Fira Code', 'Consolas', monospace; }
+    @media print {
+      body { padding: 20px; }
+      .snippet { page-break-inside: avoid; }
+    }
+    @page { margin: 1.5cm; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>⚡ DevFlow Suite — Snippets</h1>
+    <p>${list.length} snippet${list.length > 1 ? 's' : ''} · Exported ${new Date().toLocaleDateString()}</p>
+  </div>
+  ${snippetsHTML}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prismjs/1.29.0/components/prism-core.min.js"><\/script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prismjs/1.29.0/plugins/autoloader/prism-autoloader.min.js"><\/script>
+  <script>
+    Prism.highlightAll();
+    setTimeout(() => window.print(), 500);
+  <\/script>
+</body>
+</html>`;
+
+    const blob = new Blob([html], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank');
   },
 
   _shareFallback(shareData) {

@@ -615,6 +615,9 @@
         <button id="btn-export-snippets" class="ml-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors flex items-center gap-2">
           <i class="fas fa-download"></i> Export
         </button>
+        <button id="btn-export-pdf" class="ml-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors flex items-center gap-2">
+          <i class="fas fa-file-pdf"></i> PDF
+        </button>
         <button id="btn-import-snippets" class="ml-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors flex items-center gap-2">
           <i class="fas fa-upload"></i> Import
         </button>
@@ -659,6 +662,9 @@
           </select>
           <button onclick="SnippetManager.bulkExport()" class="px-3 py-1.5 text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center gap-1">
             <i class="fas fa-download text-xs"></i> Export
+          </button>
+          <button onclick="SnippetManager.exportPDF(SnippetManager._selectedIds)" class="px-3 py-1.5 text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center gap-1">
+            <i class="fas fa-file-pdf text-xs"></i> PDF
           </button>
           <button onclick="SnippetManager.shareSelected()" class="px-3 py-1.5 text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center gap-1">
             <i class="fas fa-share-alt text-xs"></i> Share
