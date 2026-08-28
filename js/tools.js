@@ -2,6 +2,68 @@
    DevFlow Suite — Tools Implementation
    ======================================== */
 
+// ─── Snippet History (Undo/Redo) ────────
+const SnippetHistory = {
+  _undoStack: [],
+  _redoStack: [],
+  _maxSize: 50,
+  _locked: false, // prevent recording during undo/redo
+
+  // Save current state before an action
+  record(snippets) {
+    if (this._locked) return;
+    this._undoStack.push(JSON.stringify(snippets));
+    if (this._undoStack.length > this._maxSize) this._undoStack.shift();
+    // Clear redo stack on new action
+    this._redoStack = [];
+    this._updateButtons();
+  },
+
+  // Undo: restore previous state, push current to redo
+  undo(currentSnippets) {
+    if (this._undoStack.length === 0) return null;
+    this._locked = true;
+    this._redoStack.push(JSON.stringify(currentSnippets));
+    const prev = JSON.parse(this._undoStack.pop());
+    this._locked = false;
+    this._updateButtons();
+    return prev;
+  },
+
+  // Redo: restore next state, push current to undo
+  redo(currentSnippets) {
+    if (this._redoStack.length === 0) return null;
+    this._locked = true;
+    this._undoStack.push(JSON.stringify(currentSnippets));
+    const next = JSON.parse(this._redoStack.pop());
+    this._locked = false;
+    this._updateButtons();
+    return next;
+  },
+
+  get canUndo() { return this._undoStack.length > 0; },
+  get canRedo() { return this._redoStack.length > 0; },
+
+  _updateButtons() {
+    const undoBtn = document.getElementById('btn-undo');
+    const redoBtn = document.getElementById('btn-redo');
+    if (undoBtn) {
+      undoBtn.disabled = !this.canUndo;
+      undoBtn.title = this.canUndo ? `Undo (${this._undoStack.length})` : 'Nothing to undo';
+    }
+    if (redoBtn) {
+      redoBtn.disabled = !this.canRedo;
+      redoBtn.title = this.canRedo ? `Redo (${this._redoStack.length})` : 'Nothing to redo';
+    }
+  },
+
+  clear() {
+    this._undoStack = [];
+    this._redoStack = [];
+    this._updateButtons();
+  }
+};
+
 // ─── Shared Utilities ───────────────────
 function debounce(fn, ms) {
   let timer;
@@ -23,8 +85,6 @@ const SnippetManager = {
   snippets: [],
   filteredSnippets: [],
   currentEditId: null,
-  _undoStack: [],
-  _undoTimeout: null,
 
   init() {
     this.bindEvents();
@@ -146,6 +206,9 @@ const SnippetManager = {
       return;
     }
 
+    // Record history BEFORE the change
+    SnippetHistory.record(this.snippets);
+
     if (this.currentEditId) {
       const idx = this.snippets.findIndex(s => s.id === this.currentEditId);
       if (idx >= 0) {
@@ -170,89 +233,36 @@ const SnippetManager = {
     if (idx < 0) return;
 
     const removed = this.snippets[idx];
-    const index = idx; // remember position for restore
+
+    // Record history BEFORE the change
+    SnippetHistory.record(this.snippets);
 
     // Remove from list
     this.snippets.splice(idx, 1);
     this.save();
     this.render();
-
-    // Push to undo stack
-    this._undoStack.push({ snippet: removed, index });
-    if (this._undoStack.length > 20) this._undoStack.shift();
-
-    // Show undo snackbar
-    this._showUndoSnackbar(removed.title);
+    showNotification(`"${removed.title}" deleted`, 'info', 2000);
   },
 
-  undoDelete() {
-    if (this._undoStack.length === 0) return;
-
-    const { snippet, index } = this._undoStack.pop();
-    // Restore at original position (or end if position no longer valid)
-    const insertAt = Math.min(index, this.snippets.length);
-    this.snippets.splice(insertAt, 0, snippet);
+  // ── Undo / Redo ──────────────────────
+  undo() {
+    const prev = SnippetHistory.undo(this.snippets);
+    if (!prev) return showNotification('Nothing to undo', 'warning', 1500);
+    this.snippets = prev;
+    this.filteredSnippets = [...this.snippets];
     this.save();
     this.render();
-    showNotification(`"${snippet.title}" restored!`, 'success');
+    showNotification('Undone!', 'success', 1500);
   },
 
-  _showUndoSnackbar(title) {
-    const container = document.getElementById('notificationContainer') || (() => {
-      const c = document.createElement('div');
-      c.id = 'notificationContainer';
-      c.className = 'fixed bottom-4 right-4 z-50 space-y-2';
-      document.body.appendChild(c);
-      return c;
-    })();
-
-    const el = document.createElement('div');
-    el.className = 'bg-gray-800 dark:bg-gray-700 text-white pl-4 pr-2 py-3 rounded-lg shadow-lg border-l-4 border-gray-500 flex items-center gap-3 transform translate-x-full opacity-0 transition-all duration-300 max-w-sm';
-    el.innerHTML = `
-      <i class="fas fa-trash text-gray-400 text-lg flex-shrink-0"></i>
-      <span class="flex-1 text-sm font-medium">"${title}" deleted</span>
-      <button class="undo-btn px-3 py-1 bg-blue-500 hover:bg-blue-600 rounded-lg text-xs font-bold transition-colors flex-shrink-0">
-        Undo
-      </button>
-      <button class="close-btn ml-1 p-1 rounded hover:bg-white/20 transition-colors flex-shrink-0" aria-label="Close">
-        <i class="fas fa-times text-sm"></i>
-      </button>
-    `;
-    container.appendChild(el);
-
-    // Slide in
-    requestAnimationFrame(() => {
-      el.classList.remove('translate-x-full', 'opacity-0');
-      el.classList.add('translate-x-0', 'opacity-100');
-    });
-
-    const dismiss = () => {
-      el.classList.add('translate-x-full', 'opacity-0');
-      setTimeout(() => el.remove(), 300);
-    };
-
-    // Undo button
-    el.querySelector('.undo-btn').addEventListener('click', () => {
-      this.undoDelete();
-      dismiss();
-    });
-
-    // Close button
-    el.querySelector('.close-btn').addEventListener('click', dismiss);
-
-    // Auto-dismiss after 8 seconds
-    let timeout = setTimeout(dismiss, 8000);
-    el.addEventListener('mouseenter', () => clearTimeout(timeout));
-    el.addEventListener('mouseleave', () => {
-      timeout = setTimeout(dismiss, 3000);
-    });
-
-    // Screen reader announcement
-    const announcer = document.getElementById('a11y-announcer');
-    if (announcer) {
-      announcer.textContent = `${title} deleted. Press Undo to restore.`;
-      setTimeout(() => { announcer.textContent = ''; }, 5000);
-    }
+  redo() {
+    const next = SnippetHistory.redo(this.snippets);
+    if (!next) return showNotification('Nothing to redo', 'warning', 1500);
+    this.snippets = next;
+    this.filteredSnippets = [...this.snippets];
+    this.save();
+    this.render();
+    showNotification('Redone!', 'success', 1500);
   },
 
   search(query) {
@@ -421,6 +431,9 @@ const SnippetManager = {
     const srcIdx = this.snippets.findIndex(s => s.id === srcId);
     const dstIdx = this.snippets.findIndex(s => s.id === dstId);
     if (srcIdx < 0 || dstIdx < 0) return;
+
+    // Record history BEFORE the change
+    SnippetHistory.record(this.snippets);
 
     // Remove source
     const [moved] = this.snippets.splice(srcIdx, 1);

@@ -465,6 +465,12 @@ const Shortcuts = {
       } else if (e.key === 'f') {
         e.preventDefault();
         document.getElementById('snippet-search')?.focus();
+      } else if (e.key === 'z' && !e.shiftKey) {
+        e.preventDefault();
+        SnippetManager.undo();
+      } else if ((e.key === 'z' && e.shiftKey) || e.key === 'y') {
+        e.preventDefault();
+        SnippetManager.redo();
       }
     }
   },
