@@ -350,6 +350,9 @@ const SnippetManager = {
               <button onclick="copyToClipboard(\`${s.code}\`, this)" class="p-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded" title="Copy code">
                 <i class="fas fa-copy text-sm"></i>
               </button>
+              <button onclick="SnippetManager.shareSnippet('${s.id}')" class="p-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded" title="Share">
+                <i class="fas fa-share-alt text-sm"></i>
+              </button>
             </div>
           </div>
           <div class="p-4">
@@ -568,6 +571,49 @@ n    const headerCb = document.getElementById('snippet-select-all');
     this.render();
     this._updateBulkBar();
     showNotification(`${count} snippet${count > 1 ? 's' : ''} → ${lang}`, 'success', 2000);
+  },
+
+  // ── Share Snippet (Web Share API) ─────
+  shareSnippet(id) {
+    const s = this.snippets.find(x => x.id === id);
+    if (!s) return;
+
+    const shareData = {
+      title: `${s.title} — DevFlow Suite`,
+      text: `${s.title} (${s.language})\n\n${s.code}`,
+      code: s.code
+    };
+
+    if (navigator.share) {
+      navigator.share(shareData).catch(() => {
+        // User cancelled or error — fallback to copy
+        this._shareFallback(shareData);
+      });
+    } else {
+      this._shareFallback(shareData);
+    }
+  },
+
+  shareSelected() {
+    const selected = this.snippets.filter(s => this._selectedIds.has(s.id));
+    if (selected.length === 0) return;
+
+    const text = selected.map(s => `/* ${s.title} (${s.language}) */\n${s.code}`).join('\n\n---\n\n');
+    const shareData = {
+      title: `${selected.length} snippets — DevFlow Suite`,
+      text
+    };
+
+    if (navigator.share) {
+      navigator.share(shareData).catch(() => this._shareFallback(shareData));
+    } else {
+      this._shareFallback(shareData);
+    }
+  },
+
+  _shareFallback(shareData) {
+    copyToClipboard(shareData.text);
+    showNotification('Snippet copied to clipboard (share not supported)', 'info', 2000);
   },
 
   _bindSelectionEvents(container) {
