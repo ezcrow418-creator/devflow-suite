@@ -97,7 +97,7 @@ const ThemeManager = {
 
 // ─── Router ────────────────────────────
 const Router = {
-  views: ['landing', 'dashboard', 'snippets', 'regex', 'json', 'color', 'markdown', 'checkout', 'download'],
+  views: ['landing', 'dashboard', 'snippets', 'regex', 'json', 'color', 'markdown', 'checkout', 'download', 'help'],
 
   navigate(view, skipHistory = false) {
     this.views.forEach(v => {
@@ -166,6 +166,7 @@ const Router = {
     // Back from checkout/download
     document.getElementById('btn-back-checkout')?.addEventListener('click', () => this.navigate('dashboard'));
     document.getElementById('btn-back-dashboard-download')?.addEventListener('click', () => this.navigate('dashboard'));
+    document.getElementById('btn-back-dashboard-help')?.addEventListener('click', () => this.navigate('dashboard'));
 
     // Buy Pro / Snippets Vault buttons
     document.getElementById('btn-buy-pro')?.addEventListener('click', (e) => {
@@ -479,6 +480,13 @@ const Shortcuts = {
       return;
     }
 
+    // ── ?: Open help page ──
+    if (e.key === '?' && !this._inInput()) {
+      e.preventDefault();
+      Router.navigate('help');
+      return;
+    }
+
     // ── Skip remaining shortcuts if typing in an input ──
     if (this._inInput()) return;
 
@@ -571,6 +579,7 @@ const Shortcuts = {
     { label: 'ColorCraft', icon: 'fa-palette', color: 'text-violet-500', action: () => Router.navigate('color'), keys: ['4', 'C'] },
     { label: 'Markdown Editor', icon: 'fa-edit', color: 'text-pink-500', action: () => Router.navigate('markdown'), keys: ['5', 'M'] },
     { label: 'Dashboard', icon: 'fa-th-large', color: 'text-gray-500', action: () => Router.navigate('dashboard'), keys: ['ESC'] },
+    { label: 'Help & Shortcuts', icon: 'fa-question-circle', color: 'text-blue-500', action: () => Router.navigate('help'), keys: ['?'] },
     { label: 'Toggle Dark Mode', icon: 'fa-moon', color: 'text-indigo-500', action: () => ThemeManager.toggle(), keys: ['Ctrl', 'D'] },
   ],
 

@@ -424,6 +424,9 @@
           <button id="btn-buy-pro" class="hidden sm:flex px-4 py-1.5 bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-lg font-medium hover:shadow-lg hover:scale-105 transition-all items-center gap-1 text-sm">
             <i class="fas fa-bolt"></i> Snippets Vault
           </button>
+          <button onclick="Router.navigate('help')" class="hidden sm:flex p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors" aria-label="Help and shortcuts" title="Help & Shortcuts (?)">
+            <i class="fas fa-question-circle text-gray-500 dark:text-gray-400"></i>
+          </button>
           <button id="btn-back-landing" class="hidden sm:flex px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
             <i class="fas fa-arrow-left mr-2"></i> Back
           </button>
@@ -1080,6 +1083,165 @@ console.log("Hello World");
           </div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- ===== HELP / DOCS ===== -->
+  <div id="view-help" class="hidden min-h-screen pt-20" role="main" aria-label="Help and documentation">
+    <div class="max-w-3xl mx-auto px-6">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-4">
+          <button id="btn-back-dashboard-help" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors" aria-label="Back to dashboard">
+            <i class="fas fa-arrow-left" aria-hidden="true"></i>
+          </button>
+          <h1 class="text-2xl font-bold flex items-center gap-3">
+            <i class="fas fa-question-circle text-blue-500"></i> Help & Shortcuts
+          </h1>
+        </div>
+        <button id="theme-toggle-help" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors" aria-label="Toggle dark mode">
+          <i class="fas fa-moon" aria-hidden="true"></i>
+        </button>
+      </div>
+      <!-- Breadcrumb -->
+      <nav aria-label="Breadcrumb" class="mb-6">
+        <ol class="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400">
+          <li><a href="#" onclick="Router.navigate('landing');return false" class="hover:text-blue-500 transition-colors">Home</a></li>
+          <li aria-hidden="true"><i class="fas fa-chevron-right text-xs"></i></li>
+          <li class="text-gray-900 dark:text-white font-medium" aria-current="page">Help</li>
+        </ol>
+      </nav>
+
+      <!-- Keyboard Shortcuts -->
+      <section class="mb-8">
+        <h2 class="text-lg font-bold mb-4 flex items-center gap-2">
+          <i class="fas fa-keyboard text-violet-500"></i> Keyboard Shortcuts
+        </h2>
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm dark:border dark:border-gray-700 overflow-hidden">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-px bg-gray-200 dark:bg-gray-700">
+            <div class="bg-white dark:bg-gray-800 p-4">
+              <h3 class="font-bold text-sm text-gray-500 dark:text-gray-400 mb-3 uppercase tracking-wider">Navigation</h3>
+              <div class="space-y-2">
+                <div class="flex justify-between items-center"><span class="text-sm">Open command palette</span><kbd class="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-xs font-mono">Ctrl+K</kbd></div>
+                <div class="flex justify-between items-center"><span class="text-sm">Toggle dark mode</span><kbd class="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-xs font-mono">Ctrl+D</kbd></div>
+                <div class="flex justify-between items-center"><span class="text-sm">Toggle zen mode</span><kbd class="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-xs font-mono">F11</kbd></div>
+                <div class="flex justify-between items-center"><span class="text-sm">Go back / close</span><kbd class="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-xs font-mono">Esc</kbd></div>
+                <div class="flex justify-between items-center"><span class="text-sm">Open tool 1-5</span><kbd class="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-xs font-mono">1-5</kbd></div>
+              </div>
+            </div>
+            <div class="bg-white dark:bg-gray-800 p-4">
+              <h3 class="font-bold text-sm text-gray-500 dark:text-gray-400 mb-3 uppercase tracking-wider">Snippets</h3>
+              <div class="space-y-2">
+                <div class="flex justify-between items-center"><span class="text-sm">New snippet</span><kbd class="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-xs font-mono">Ctrl+N</kbd></div>
+                <div class="flex justify-between items-center"><span class="text-sm">Search snippets</span><kbd class="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-xs font-mono">Ctrl+F</kbd></div>
+                <div class="flex justify-between items-center"><span class="text-sm">Undo</span><kbd class="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-xs font-mono">Ctrl+Z</kbd></div>
+                <div class="flex justify-between items-center"><span class="text-sm">Redo</span><kbd class="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-xs font-mono">Ctrl+Shift+Z</kbd></div>
+                <div class="flex justify-between items-center"><span class="text-sm">Select all</span><kbd class="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-xs font-mono">Ctrl+A</kbd></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tool Guides -->
+      <section class="mb-8">
+        <h2 class="text-lg font-bold mb-4 flex items-center gap-2">
+          <i class="fas fa-book text-green-500"></i> Tool Guides
+        </h2>
+        <div class="space-y-4">
+          <details class="bg-white dark:bg-gray-800 rounded-xl shadow-sm dark:border dark:border-gray-700 overflow-hidden group" open>
+            <summary class="p-4 cursor-pointer font-bold flex items-center gap-2 hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors">
+              <i class="fas fa-folder-open text-blue-500"></i> Snippet Vault
+              <i class="fas fa-chevron-down text-gray-400 ml-auto transition-transform group-open:rotate-180"></i>
+            </summary>
+            <div class="px-4 pb-4 text-sm text-gray-600 dark:text-gray-300 space-y-2">
+              <p><strong>Save code snippets</strong> with titles, languages, and tags. Supports 12+ languages with syntax highlighting.</p>
+              <ul class="list-disc list-inside space-y-1 ml-2">
+                <li><strong>Drag & drop</strong> the grip handle (⋮⋮) to reorder snippets</li>
+                <li><strong>Multi-select</strong> checkboxes for bulk actions (delete, export, change language)</li>
+                <li><strong>Search</strong> by title, tags, language, or code content</li>
+                <li><strong>Export/Import</strong> your snippets as JSON files</li>
+                <li><strong>Undo/Redo</strong> any action with Ctrl+Z / Ctrl+Shift+Z</li>
+              </ul>
+            </div>
+          </details>
+          <details class="bg-white dark:bg-gray-800 rounded-xl shadow-sm dark:border dark:border-gray-700 overflow-hidden group">
+            <summary class="p-4 cursor-pointer font-bold flex items-center gap-2 hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors">
+              <i class="fas fa-magic text-green-500"></i> Regex Forge
+              <i class="fas fa-chevron-down text-gray-400 ml-auto transition-transform group-open:rotate-180"></i>
+            </summary>
+            <div class="px-4 pb-4 text-sm text-gray-600 dark:text-gray-300 space-y-2">
+              <p><strong>Test regex patterns</strong> with real-time match highlighting and capture groups.</p>
+              <ul class="list-disc list-inside space-y-1 ml-2">
+                <li>Enter a pattern in the top field and see matches highlighted instantly</li>
+                <li><strong>Flags:</strong> g (global), i (case-insensitive), m (multiline), s (dotAll), u (unicode), y (sticky)</li>
+                <li>View capture groups ($1, $2, etc.) for each match</li>
+                <li>Matches show position index in the source string</li>
+              </ul>
+            </div>
+          </details>
+          <details class="bg-white dark:bg-gray-800 rounded-xl shadow-sm dark:border dark:border-gray-700 overflow-hidden group">
+            <summary class="p-4 cursor-pointer font-bold flex items-center gap-2 hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors">
+              <i class="fas fa-cubes text-orange-500"></i> JSON Wizard
+              <i class="fas fa-chevron-down text-gray-400 ml-auto transition-transform group-open:rotate-180"></i>
+            </summary>
+            <div class="px-4 pb-4 text-sm text-gray-600 dark:text-gray-300 space-y-2">
+              <p><strong>Format, minify, validate</strong> and colorize JSON data with syntax highlighting.</p>
+              <ul class="list-disc list-inside space-y-1 ml-2">
+                <li><strong>Format:</strong> Pretty-print with 2-space indentation</li>
+                <li><strong>Minify:</strong> Remove all whitespace for compact output</li>
+                <li><strong>Validate:</strong> Check if JSON is valid with detailed error messages</li>
+                <li>Real-time validation as you type</li>
+              </ul>
+            </div>
+          </details>
+          <details class="bg-white dark:bg-gray-800 rounded-xl shadow-sm dark:border dark:border-gray-700 overflow-hidden group">
+            <summary class="p-4 cursor-pointer font-bold flex items-center gap-2 hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors">
+              <i class="fas fa-palette text-violet-500"></i> ColorCraft
+              <i class="fas fa-chevron-down text-gray-400 ml-auto transition-transform group-open:rotate-180"></i>
+            </summary>
+            <div class="px-4 pb-4 text-sm text-gray-600 dark:text-gray-300 space-y-2">
+              <p><strong>Generate color palettes</strong> from images and explore color harmonies.</p>
+              <ul class="list-disc list-inside space-y-1 ml-2">
+                <li><strong>Upload an image</strong> or enter a URL to extract dominant colors</li>
+                <li>Adjust the <strong>color count slider</strong> (2-10 colors)</li>
+                <li><strong>Pick colors</strong> with the color picker or hex input</li>
+                <li><strong>Harmonies:</strong> Complementary, Analogous, Triadic, Tetradic</li>
+                <li>Click any palette color to copy its hex value</li>
+              </ul>
+            </div>
+          </details>
+          <details class="bg-white dark:bg-gray-800 rounded-xl shadow-sm dark:border dark:border-gray-700 overflow-hidden group">
+            <summary class="p-4 cursor-pointer font-bold flex items-center gap-2 hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors">
+              <i class="fas fa-edit text-pink-500"></i> Markdown Editor
+              <i class="fas fa-chevron-down text-gray-400 ml-auto transition-transform group-open:rotate-180"></i>
+            </summary>
+            <div class="px-4 pb-4 text-sm text-gray-600 dark:text-gray-300 space-y-2">
+              <p><strong>Write Markdown</strong> with live preview and export to HTML.</p>
+              <ul class="list-disc list-inside space-y-1 ml-2">
+                <li>Split view: editor on left, live preview on right</li>
+                <li>Supports GFM (GitHub Flavored Markdown): tables, task lists, strikethrough</li>
+                <li><strong>Export HTML:</strong> Download as a standalone HTML file</li>
+                <li><strong>Copy HTML:</strong> Copy rendered HTML to clipboard</li>
+                <li><strong>Fullscreen:</strong> Distraction-free editing mode</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- Tips -->
+      <section class="mb-8">
+        <h2 class="text-lg font-bold mb-4 flex items-center gap-2">
+          <i class="fas fa-lightbulb text-yellow-500"></i> Tips
+        </h2>
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm dark:border dark:border-gray-700 p-4 space-y-3 text-sm text-gray-600 dark:text-gray-300">
+          <div class="flex gap-3"><i class="fas fa-moon text-blue-500 mt-0.5"></i><p><strong>Theme modes:</strong> Click the theme button to cycle: Dark → Light → Auto (follows your OS setting).</p></div>
+          <div class="flex gap-3"><i class="fas fa-download text-green-500 mt-0.5"></i><p><strong>Install as PWA:</strong> Use your browser's install button or the "Install as App" link on the landing page for offline access.</p></div>
+          <div class="flex gap-3"><i class="fas fa-shield-alt text-red-500 mt-0.5"></i><p><strong>Privacy first:</strong> All data stays in your browser. No servers, no tracking, no cookies.</p></div>
+          <div class="flex gap-3"><i class="fas fa-expand text-violet-500 mt-0.5"></i><p><strong>Zen mode:</strong> Press F11 to hide all UI elements and focus on your code.</p></div>
+          <div class="flex gap-3"><i class="fas fa-search text-amber-500 mt-0.5"></i><p><strong>Command palette:</strong> Press Ctrl+K anywhere to quickly navigate between tools.</p></div>
+        </div>
+      </section>
     </div>
   </div>
 
