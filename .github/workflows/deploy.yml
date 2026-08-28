@@ -1,0 +1,92 @@
+# =============================================
+# DevFlow Suite — CI/CD Pipeline
+# Tests → Build → Deploy to GitHub Pages
+# =============================================
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Allow only one concurrent deployment
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+# Deploy to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  # ── Stage 1: Test ──────────────────────────
+  test:
+    name: 🧪 Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Run tests
+        run: npm test
+
+  # ── Stage 2: Build & Deploy ────────────────
+  deploy:
+    name: 🚀 Deploy
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Minify assets
+        run: bash minify.sh
+
+      - name: Prepare Pages artifact
+        run: |
+          # Use dist/ if minification succeeded, otherwise use root
+          if [ -d "dist" ] && [ -f "dist/index.html" ]; then
+            echo "📦 Deploying minified build from dist/"
+            cp sw.js dist/
+            cp manifest.json dist/
+            cp robots.txt dist/ 2>/dev/null || true
+            cp sitemap.xml dist/ 2>/dev/null || true
+            cp -r assets dist/ 2>/dev/null || true
+            cp offline.html dist/ 2>/dev/null || true
+          else
+            echo "📦 Deploying full source (minification skipped)"
+            mkdir -p dist
+            cp index.html sw.js manifest.json offline.html robots.txt sitemap.xml dist/
+            cp -r css js assets dist/
+          fi
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  # ── Stage 3: Publish ───────────────────────
+  publish:
+    name: 🌐 Publish
+    runs-on: ubuntu-latest
+    needs: deploy
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
