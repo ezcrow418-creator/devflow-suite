@@ -97,7 +97,7 @@ const ThemeManager = {
 
 // ─── Router ────────────────────────────
 const Router = {
-  views: ['landing', 'dashboard', 'snippets', 'regex', 'json', 'color', 'markdown', 'checkout', 'download', 'help'],
+  views: ['landing', 'dashboard', 'snippets', 'regex', 'json', 'color', 'markdown', 'checkout', 'download', 'help', 'compare'],
 
   navigate(view, skipHistory = false) {
     this.views.forEach(v => {
@@ -167,6 +167,7 @@ const Router = {
     document.getElementById('btn-back-checkout')?.addEventListener('click', () => this.navigate('dashboard'));
     document.getElementById('btn-back-dashboard-download')?.addEventListener('click', () => this.navigate('dashboard'));
     document.getElementById('btn-back-dashboard-help')?.addEventListener('click', () => this.navigate('dashboard'));
+    document.getElementById('btn-back-dashboard-compare')?.addEventListener('click', () => this.navigate('dashboard'));
 
     // Buy Pro / Snippets Vault buttons
     document.getElementById('btn-buy-pro')?.addEventListener('click', (e) => {

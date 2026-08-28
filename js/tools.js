@@ -526,10 +526,13 @@ n    const headerCb = document.getElementById('snippet-select-all');
   _updateBulkBar() {
     const bar = document.getElementById('bulk-actions');
     const count = document.getElementById('bulk-count');
+    const compareBtn = document.getElementById('btn-compare');
     if (!bar) return;
     if (this._selectedIds.size > 0) {
       bar.classList.remove('hidden');
       if (count) count.textContent = this._selectedIds.size;
+      // Enable compare only when exactly 2 selected
+      if (compareBtn) compareBtn.disabled = this._selectedIds.size !== 2;
     } else {
       bar.classList.add('hidden');
     }
@@ -684,6 +687,54 @@ n    const headerCb = document.getElementById('snippet-select-all');
     const blob = new Blob([html], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
     window.open(url, '_blank');
+  },
+
+  // ── Compare Two Snippets ─────────────
+  compareSelected() {
+    const selected = this.snippets.filter(s => this._selectedIds.has(s.id));
+    if (selected.length !== 2) {
+      showNotification('Select exactly 2 snippets to compare', 'warning', 2000);
+      return;
+    }
+
+    // Store for the compare view
+    this._comparePair = selected;
+    Router.navigate('compare');
+
+    // Render after navigation
+    setTimeout(() => this._renderCompare(), 100);
+  },
+
+  _renderCompare() {
+    const pair = this._comparePair;
+    if (!pair || pair.length !== 2) return;
+
+    const [left, right] = pair;
+
+    // Titles and languages
+    const leftTitle = document.getElementById('compare-left-title');
+    const rightTitle = document.getElementById('compare-right-title');
+    const leftLang = document.getElementById('compare-left-lang');
+    const rightLang = document.getElementById('compare-right-lang');
+    const leftCode = document.getElementById('compare-left-code');
+    const rightCode = document.getElementById('compare-right-code');
+
+    if (leftTitle) leftTitle.textContent = left.title;
+    if (rightTitle) rightTitle.textContent = right.title;
+    if (leftLang) leftLang.textContent = left.language;
+    if (rightLang) rightLang.textContent = right.language;
+
+    if (leftCode) {
+      leftCode.innerHTML = `<pre class="language-${left.language} bg-gray-50 dark:bg-gray-900/50 rounded-lg p-3 overflow-x-auto"><code class="language-${left.language}">${escapeHtml(left.code)}</code></pre>`;
+    }
+    if (rightCode) {
+      rightCode.innerHTML = `<pre class="language-${right.language} bg-gray-50 dark:bg-gray-900/50 rounded-lg p-3 overflow-x-auto"><code class="language-${right.language}">${escapeHtml(right.code)}</code></pre>`;
+    }
+
+    // Re-highlight syntax
+    if (typeof Prism !== 'undefined') {
+      setTimeout(() => Prism.highlightAll(), 50);
+    }
   },
 
   _shareFallback(shareData) {

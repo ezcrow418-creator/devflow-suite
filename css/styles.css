@@ -950,3 +950,15 @@ html.dark .notif-text {
 .notif-badge {
   animation: pulse 2s ease-in-out infinite;
 }
+
+/* ===== COMPARE VIEW ===== */
+#compare-container pre {
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  #compare-container {
+    grid-template-columns: 1fr !important;
+  }
+}
