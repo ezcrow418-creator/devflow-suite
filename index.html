@@ -1152,6 +1152,39 @@ console.log("Hello World");
 
   <!-- ===== HELP / DOCS ===== -->
   <!-- ===== COMPARE VIEW ===== -->
+  <!-- ===== PRESENTATION MODE ===== -->
+  <div id="view-present" class="hidden fixed inset-0 z-[200] bg-gray-950 text-white" role="main" aria-label="Presentation mode">
+    <div class="h-full flex flex-col">
+      <!-- Top bar -->
+      <div class="flex items-center justify-between px-6 py-3 bg-gray-900/80 backdrop-blur-sm">
+        <div class="flex items-center gap-3">
+          <span id="present-counter" class="text-sm text-gray-400 font-mono">1 / 1</span>
+          <span id="present-lang" class="px-2 py-0.5 text-xs bg-blue-600 rounded-full font-medium"></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="SnippetManager.presentPrev()" class="p-2 rounded-lg hover:bg-gray-700 transition-colors" title="Previous (←)">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button onclick="SnippetManager.presentNext()" class="p-2 rounded-lg hover:bg-gray-700 transition-colors" title="Next (→)">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+          <button onclick="SnippetManager.presentExit()" class="p-2 rounded-lg hover:bg-gray-700 transition-colors ml-2" title="Exit (Esc)">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <!-- Content -->
+      <div class="flex-1 flex flex-col justify-center px-8 py-6 overflow-auto">
+        <h1 id="present-title" class="text-3xl md:text-4xl font-bold mb-6 text-center"></h1>
+        <div class="max-w-5xl mx-auto w-full flex-1 flex items-center">
+          <pre id="present-code" class="w-full bg-gray-900 rounded-xl p-6 md:p-8 overflow-auto text-base md:text-lg leading-relaxed border border-gray-800"><code></code></pre>
+        </div>
+      </div>
+      <!-- Bottom nav dots -->
+      <div id="present-dots" class="flex justify-center gap-2 pb-4"></div>
+    </div>
+  </div>
+
   <div id="view-compare" class="hidden min-h-screen pt-20" role="main" aria-label="Compare snippets">
     <div class="max-w-7xl mx-auto px-6">
       <div class="flex items-center justify-between mb-6">

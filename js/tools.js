@@ -391,6 +391,9 @@ const SnippetManager = {
               <button onclick="SnippetManager.shareSnippet('${s.id}')" class="p-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded" title="Share">
                 <i class="fas fa-share-alt text-sm"></i>
               </button>
+              <button onclick="SnippetManager.present('${s.id}')" class="p-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded" title="Present">
+                <i class="fas fa-desktop text-sm"></i>
+              </button>
             </div>
           </div>
           <div class="p-4">
@@ -733,6 +736,124 @@ n    const headerCb = document.getElementById('snippet-select-all');
     const blob = new Blob([html], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
     window.open(url, '_blank');
+  },
+
+  // ── Presentation Mode ──────────────
+  _presentList: [],
+  _presentIndex: 0,
+  _presentHandler: null,
+
+  present(id) {
+    // Start with this snippet, show all after it, then wrap around
+    const idx = this.snippets.findIndex(s => s.id === id);
+    if (idx < 0) return;
+    this._presentList = [...this.snippets.slice(idx), ...this.snippets.slice(0, idx)];
+    this._presentIndex = 0;
+    this._showPresent();
+  },
+
+  presentAll() {
+    if (this.snippets.length === 0) return;
+    this._presentList = [...this.snippets];
+    this._presentIndex = 0;
+    this._showPresent();
+  },
+
+  _showPresent() {
+    const view = document.getElementById('view-present');
+    if (!view) return;
+
+    // Hide all other views
+    document.querySelectorAll('[id^="view-"]').forEach(v => v.classList.add('hidden'));
+    view.classList.remove('hidden');
+    document.body.classList.add('app-mode');
+
+    // Request fullscreen
+    if (view.requestFullscreen) {
+      view.requestFullscreen().catch(() => {});
+    }
+
+    this._renderPresentSlide();
+    this._bindPresentKeys();
+  },
+
+  _renderPresentSlide() {
+    const s = this._presentList[this._presentIndex];
+    if (!s) return;
+
+    const title = document.getElementById('present-title');
+    const code = document.getElementById('present-code');
+    const counter = document.getElementById('present-counter');
+    const lang = document.getElementById('present-lang');
+    const dots = document.getElementById('present-dots');
+
+    if (title) title.textContent = s.title;
+    if (lang) lang.textContent = s.language;
+    if (counter) counter.textContent = `${this._presentIndex + 1} / ${this._presentList.length}`;
+
+    if (code) {
+      code.innerHTML = `<code class="language-${s.language}">${escapeHtml(s.code)}</code>`;
+      if (typeof Prism !== 'undefined') {
+        setTimeout(() => Prism.highlightAll(), 10);
+      }
+    }
+
+    // Render dots
+    if (dots && this._presentList.length > 1) {
+      dots.innerHTML = this._presentList.map((_, i) =>
+        `<div class="w-2 h-2 rounded-full transition-all ${i === this._presentIndex ? 'bg-white w-6' : 'bg-gray-600'}"></div>`
+      ).join('');
+    }
+  },
+
+  presentNext() {
+    if (this._presentIndex < this._presentList.length - 1) {
+      this._presentIndex++;
+      this._renderPresentSlide();
+    }
+  },
+
+  presentPrev() {
+    if (this._presentIndex > 0) {
+      this._presentIndex--;
+      this._renderPresentSlide();
+    }
+  },
+
+  presentExit() {
+    const view = document.getElementById('view-present');
+    view?.classList.add('hidden');
+    document.body.classList.remove('app-mode');
+
+    // Exit fullscreen
+    if (document.fullscreenElement) {
+      document.exitFullscreen().catch(() => {});
+    }
+
+    // Remove key handler
+    if (this._presentHandler) {
+      document.removeEventListener('keydown', this._presentHandler);
+      this._presentHandler = null;
+    }
+
+    // Go back to snippets
+    Router.navigate('snippets', true);
+  },
+
+  _bindPresentKeys() {
+    if (this._presentHandler) return;
+    this._presentHandler = (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        e.preventDefault();
+        this.presentNext();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        this.presentPrev();
+      } else if (e.key === 'Escape') {
+        this.presentExit();
+      }
+    };
+    document.addEventListener('keydown', this._presentHandler);
   },
 
   // ── Compare Two Snippets ─────────────
