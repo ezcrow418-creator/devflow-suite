@@ -31,6 +31,7 @@ function debounce(fn, ms) {
 // SnippetManager logic (pure, no DOM)
 function createSnippetStore() {
   let snippets = [];
+  let undoStack = [];
 
   return {
     get all() { return snippets; },
@@ -47,6 +48,21 @@ function createSnippetStore() {
 
     remove(id) {
       snippets = snippets.filter(s => s.id !== id);
+    },
+
+    removeWithUndo(id) {
+      const idx = snippets.findIndex(s => s.id === id);
+      if (idx < 0) return;
+      const removed = snippets[idx];
+      snippets.splice(idx, 1);
+      undoStack.push({ snippet: removed, index: idx });
+    },
+
+    undoDelete() {
+      if (undoStack.length === 0) return;
+      const { snippet, index } = undoStack.pop();
+      const insertAt = Math.min(index, snippets.length);
+      snippets.splice(insertAt, 0, snippet);
     },
 
     edit(id, updates) {
@@ -68,7 +84,7 @@ function createSnippetStore() {
 
     export() { return JSON.stringify(snippets); },
     import(json) { snippets = JSON.parse(json); },
-    reset() { snippets = []; },
+    reset() { snippets = []; undoStack = []; },
   };
 }
 
@@ -350,6 +366,47 @@ describe('SnippetManager — CRUD & Search', () => {
     const s1 = store.add('A', 'javascript', '', 'code1');
     const s2 = store.add('B', 'python', '', 'code2');
     assert.notEqual(s1.id, s2.id);
+  });
+
+  it('should undo a delete and restore snippet at original position', () => {
+    store.reset();
+    store.add('C', 'js', '', 'c');   // index 0 (newest)
+    const s2 = store.add('B', 'js', '', 'b');  // index 0, pushes C to 1
+    store.add('A', 'js', '', 'a');   // index 0, pushes B→1, C→2
+    // List: [A, B, C]
+    store.removeWithUndo(s2.id); // remove B at index 1
+    // List: [A, C]
+    assert.equal(store.all.length, 2);
+    assert.equal(store.all[1].title, 'C');
+    // Undo: restore B at index 1
+    store.undoDelete();
+    assert.equal(store.all.length, 3);
+    assert.equal(store.all[1].title, 'B');
+  });
+
+  it('should undo multiple deletes in LIFO order', () => {
+    store.reset();
+    const s1 = store.add('A', 'js', '', 'code1'); // index 0
+    const s2 = store.add('B', 'js', '', 'code2'); // index 0, A→1
+    // List: [B, A]
+    store.removeWithUndo(s1.id); // remove A at index 1
+    // List: [B]
+    store.removeWithUndo(s2.id); // remove B at index 0
+    // List: []
+    assert.equal(store.all.length, 0);
+    store.undoDelete(); // restore B at index 0
+    assert.equal(store.all.length, 1);
+    assert.equal(store.all[0].title, 'B');
+    store.undoDelete(); // restore A at index 1
+    assert.equal(store.all.length, 2);
+    assert.equal(store.all[1].title, 'A');
+  });
+
+  it('should do nothing on undo when stack is empty', () => {
+    store.reset();
+    store.add('X', 'js', '', 'code');
+    store.undoDelete(); // no-op
+    assert.equal(store.all.length, 1);
   });
 });
 

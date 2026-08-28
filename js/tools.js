@@ -23,6 +23,8 @@ const SnippetManager = {
   snippets: [],
   filteredSnippets: [],
   currentEditId: null,
+  _undoStack: [],
+  _undoTimeout: null,
 
   init() {
     this.load();
@@ -144,10 +146,93 @@ const SnippetManager = {
   },
 
   deleteSnippet(id) {
-    this.snippets = this.snippets.filter(s => s.id !== id);
+    const idx = this.snippets.findIndex(s => s.id === id);
+    if (idx < 0) return;
+
+    const removed = this.snippets[idx];
+    const index = idx; // remember position for restore
+
+    // Remove from list
+    this.snippets.splice(idx, 1);
     this.save();
     this.render();
-    showNotification('Snippet deleted', 'success');
+
+    // Push to undo stack
+    this._undoStack.push({ snippet: removed, index });
+    if (this._undoStack.length > 20) this._undoStack.shift();
+
+    // Show undo snackbar
+    this._showUndoSnackbar(removed.title);
+  },
+
+  undoDelete() {
+    if (this._undoStack.length === 0) return;
+
+    const { snippet, index } = this._undoStack.pop();
+    // Restore at original position (or end if position no longer valid)
+    const insertAt = Math.min(index, this.snippets.length);
+    this.snippets.splice(insertAt, 0, snippet);
+    this.save();
+    this.render();
+    showNotification(`"${snippet.title}" restored!`, 'success');
+  },
+
+  _showUndoSnackbar(title) {
+    const container = document.getElementById('notificationContainer') || (() => {
+      const c = document.createElement('div');
+      c.id = 'notificationContainer';
+      c.className = 'fixed bottom-4 right-4 z-50 space-y-2';
+      document.body.appendChild(c);
+      return c;
+    })();
+
+    const el = document.createElement('div');
+    el.className = 'bg-gray-800 dark:bg-gray-700 text-white pl-4 pr-2 py-3 rounded-lg shadow-lg border-l-4 border-gray-500 flex items-center gap-3 transform translate-x-full opacity-0 transition-all duration-300 max-w-sm';
+    el.innerHTML = `
+      <i class="fas fa-trash text-gray-400 text-lg flex-shrink-0"></i>
+      <span class="flex-1 text-sm font-medium">"${title}" deleted</span>
+      <button class="undo-btn px-3 py-1 bg-blue-500 hover:bg-blue-600 rounded-lg text-xs font-bold transition-colors flex-shrink-0">
+        Undo
+      </button>
+      <button class="close-btn ml-1 p-1 rounded hover:bg-white/20 transition-colors flex-shrink-0" aria-label="Close">
+        <i class="fas fa-times text-sm"></i>
+      </button>
+    `;
+    container.appendChild(el);
+
+    // Slide in
+    requestAnimationFrame(() => {
+      el.classList.remove('translate-x-full', 'opacity-0');
+      el.classList.add('translate-x-0', 'opacity-100');
+    });
+
+    const dismiss = () => {
+      el.classList.add('translate-x-full', 'opacity-0');
+      setTimeout(() => el.remove(), 300);
+    };
+
+    // Undo button
+    el.querySelector('.undo-btn').addEventListener('click', () => {
+      this.undoDelete();
+      dismiss();
+    });
+
+    // Close button
+    el.querySelector('.close-btn').addEventListener('click', dismiss);
+
+    // Auto-dismiss after 8 seconds
+    let timeout = setTimeout(dismiss, 8000);
+    el.addEventListener('mouseenter', () => clearTimeout(timeout));
+    el.addEventListener('mouseleave', () => {
+      timeout = setTimeout(dismiss, 3000);
+    });
+
+    // Screen reader announcement
+    const announcer = document.getElementById('a11y-announcer');
+    if (announcer) {
+      announcer.textContent = `${title} deleted. Press Undo to restore.`;
+      setTimeout(() => { announcer.textContent = ''; }, 5000);
+    }
   },
 
   search(query) {
