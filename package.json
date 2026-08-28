@@ -1,0 +1,18 @@
+{
+  "name": "devflow-suite",
+  "version": "1.0.0",
+  "description": "All-in-one developer tools PWA — Snippets, Regex, JSON, Color, Markdown",
+  "private": true,
+  "scripts": {
+    "test": "node --test js/tests-node.mjs",
+    "test:watch": "node --test --watch js/tests-node.mjs",
+    "minify": "bash minify.sh",
+    "dev": "python3 -m http.server 3000"
+  },
+  "keywords": ["developer-tools", "pwa", "snippets", "regex", "json", "markdown"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ezcrow418-creator/devflow-suite.git"
+  }
+}
