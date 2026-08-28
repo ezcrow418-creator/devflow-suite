@@ -1007,3 +1007,11 @@ html.dark .activity-item:not(:last-child)::before {
 html.dark .activity-dot {
   background: #1f293b;
 }
+
+/* ===== DIFF VIEW ===== */
+#diff-lines pre {
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0;
+}

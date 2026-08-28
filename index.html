@@ -1153,6 +1153,37 @@ console.log("Hello World");
   <!-- ===== HELP / DOCS ===== -->
   <!-- ===== COMPARE VIEW ===== -->
   <!-- ===== PRESENTATION MODE ===== -->
+  <!-- ===== DIFF VIEW ===== -->
+  <div id="view-diff" class="hidden min-h-screen pt-20" role="main" aria-label="Snippet history diff">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-4">
+          <button id="btn-back-dashboard-diff" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors" aria-label="Back to dashboard">
+            <i class="fas fa-arrow-left" aria-hidden="true"></i>
+          </button>
+          <h1 class="text-2xl font-bold flex items-center gap-3">
+            <i class="fas fa-clock-rotate-left text-cyan-500"></i> <span id="diff-title">History</span>
+          </h1>
+        </div>
+        <button id="theme-toggle-diff" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors" aria-label="Toggle dark mode">
+          <i class="fas fa-moon" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div id="diff-container" class="bg-white dark:bg-gray-800 rounded-xl shadow-sm dark:shadow-none dark:border dark:border-gray-700 overflow-hidden">
+        <div class="p-4 border-b dark:border-gray-700 flex items-center justify-between">
+          <div class="flex items-center gap-4 text-xs">
+            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700"></span> Removed</span>
+            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700"></span> Added</span>
+            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600"></span> Unchanged</span>
+          </div>
+          <span id="diff-stats" class="text-xs text-gray-500"></span>
+        </div>
+        <div id="diff-lines" class="font-mono text-sm overflow-x-auto"></div>
+      </div>
+      <p class="text-center text-sm text-gray-400 dark:text-gray-500 mt-4">Shows changes from the last edit. Edit a snippet to generate a diff.</p>
+    </div>
+  </div>
+
   <div id="view-present" class="hidden fixed inset-0 z-[200] bg-gray-950 text-white" role="main" aria-label="Presentation mode">
     <div class="h-full flex flex-col">
       <!-- Top bar -->

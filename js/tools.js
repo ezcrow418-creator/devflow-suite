@@ -79,6 +79,44 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
+// Simple line-by-line diff (LCS-based)
+function computeDiff(oldText, newText) {
+  const oldLines = oldText.split('\n');
+  const newLines = newText.split('\n');
+  const m = oldLines.length;
+  const n = newLines.length;
+
+  // LCS dynamic programming
+  const dp = Array(m + 1).fill(null).map(() => Array(n + 1).fill(0));
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (oldLines[i - 1] === newLines[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1] + 1;
+      } else {
+        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+      }
+    }
+  }
+
+  // Backtrack to build diff
+  const result = [];
+  let i = m, j = n;
+  while (i > 0 || j > 0) {
+    if (i > 0 && j > 0 && oldLines[i - 1] === newLines[j - 1]) {
+      result.unshift({ type: 'same', oldLine: i, newLine: j, text: oldLines[i - 1] });
+      i--; j--;
+    } else if (j > 0 && (i === 0 || dp[i][j - 1] >= dp[i - 1][j])) {
+      result.unshift({ type: 'add', newLine: j, text: newLines[j - 1] });
+      j--;
+    } else {
+      result.unshift({ type: 'remove', oldLine: i, text: oldLines[i - 1] });
+      i--;
+    }
+  }
+
+  return result;
+}
+
 // ─── Snippet Manager ─────────────────────
 const SnippetManager = {
   storageKey: 'devflow_snippets',
@@ -219,6 +257,8 @@ const SnippetManager = {
     if (this.currentEditId) {
       const idx = this.snippets.findIndex(s => s.id === this.currentEditId);
       if (idx >= 0) {
+        // Save previous version for diff
+        this._previousVersions[this.currentEditId] = this.snippets[idx].code;
         this.snippets[idx] = { ...this.snippets[idx], title, language, tags, code };
       }
     } else {
@@ -393,6 +433,9 @@ const SnippetManager = {
               </button>
               <button onclick="SnippetManager.present('${s.id}')" class="p-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded" title="Present">
                 <i class="fas fa-desktop text-sm"></i>
+              </button>
+              <button onclick="SnippetManager.showHistory('${s.id}')" class="p-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded" title="History">
+                <i class="fas fa-clock-rotate-left text-sm"></i>
               </button>
             </div>
           </div>
@@ -736,6 +779,70 @@ n    const headerCb = document.getElementById('snippet-select-all');
     const blob = new Blob([html], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
     window.open(url, '_blank');
+  },
+
+  // ── History / Diff ─────────────────
+  _previousVersions: {}, // { snippetId: previousCode }
+
+  showHistory(id) {
+    const s = this.snippets.find(x => x.id === id);
+    if (!s) return;
+
+    const prevCode = this._previousVersions[id];
+    const titleEl = document.getElementById('diff-title');
+    if (titleEl) titleEl.textContent = s.title;
+
+    Router.navigate('diff');
+
+    setTimeout(() => {
+      if (!prevCode) {
+        // No previous version — show current code as all new
+        this._renderDiff(s.code, s.code, true);
+      } else {
+        this._renderDiff(prevCode, s.code, false);
+      }
+    }, 100);
+  },
+
+  _renderDiff(oldCode, newCode, isNew) {
+    const container = document.getElementById('diff-lines');
+    const stats = document.getElementById('diff-stats');
+    if (!container) return;
+
+    if (isNew) {
+      container.innerHTML = `<div class="p-4 text-center text-gray-500 dark:text-gray-400">
+        <i class="fas fa-info-circle mb-2"></i>
+        <p>No previous version to compare. Edit this snippet to generate a diff.</p>
+      </div>`;
+      if (stats) stats.textContent = '';
+      return;
+    }
+
+    const diff = computeDiff(oldCode, newCode);
+    let added = 0, removed = 0;
+
+    container.innerHTML = diff.map(line => {
+      const num = line.type === 'remove' ? line.oldLine : (line.newLine || '');
+      if (line.type === 'add') added++;
+      if (line.type === 'remove') removed++;
+
+      const prefix = line.type === 'add' ? '+' : line.type === 'remove' ? '-' : ' ';
+      const bgClass = line.type === 'add'
+        ? 'bg-green-50 dark:bg-green-900/15 border-l-2 border-green-500'
+        : line.type === 'remove'
+        ? 'bg-red-50 dark:bg-red-900/15 border-l-2 border-red-500'
+        : 'border-l-2 border-transparent';
+
+      return `<div class="flex ${bgClass} hover:bg-gray-50 dark:hover:bg-gray-750">
+        <span class="w-12 text-right pr-2 text-gray-400 dark:text-gray-500 text-xs select-none flex-shrink-0 py-0.5">${num}</span>
+        <span class="w-5 text-center text-gray-400 dark:text-gray-500 select-none flex-shrink-0 py-0.5 font-bold">${prefix}</span>
+        <pre class="flex-1 py-0.5 px-2 overflow-x-auto whitespace-pre-wrap break-all">${escapeHtml(line.text)}</pre>
+      </div>`;
+    }).join('');
+
+    if (stats) {
+      stats.innerHTML = `<span class="text-green-500">+${added}</span> <span class="text-red-500">-${removed}</span>`;
+    }
   },
 
   // ── Presentation Mode ──────────────
