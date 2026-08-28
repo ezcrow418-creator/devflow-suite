@@ -151,12 +151,12 @@
     Skip to main content
   </a>
 
-  <!-- ===== THEME SCRIPT ===== -->
+  <!-- ===== THEME SCRIPT (anti-FOUC) ===== -->
   <script>
     (function() {
-      const theme = localStorage.getItem('theme');
-      const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (theme === 'dark' || (!theme && systemDark)) {
+      var t = localStorage.getItem('theme');
+      var dk = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (t === 'dark' || ((!t || t === 'auto') && dk)) {
         document.documentElement.classList.add('dark');
       }
     })();

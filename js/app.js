@@ -5,44 +5,93 @@
 
 // ─── Theme Manager ─────────────────────
 const ThemeManager = {
+  _modes: ['dark', 'light', 'auto'], // cycle order
+  _iconMap: { dark: 'fa-sun', light: 'fa-moon', auto: 'fa-desktop' },
+  _labelMap: { dark: 'Switch to light mode', light: 'Switch to dark mode', auto: 'Switch to system mode' },
+  _systemMQ: null,
+  _transitioning: false,
+
   init() {
-    const saved = localStorage.getItem('theme');
-    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const isDark = saved === 'dark' || (!saved && systemDark);
-    this.apply(isDark);
-    this.bindButtons();
+    const saved = localStorage.getItem('theme') || 'auto';
+    this._systemMQ = window.matchMedia('(prefers-color-scheme: dark)');
+    this._apply(saved);
+    this._bindButtons();
+    this._bindSystemSync();
   },
 
-  apply(isDark) {
+  // ── Apply theme with smooth transition ──
+  _apply(mode) {
     const html = document.documentElement;
-    const icon = document.querySelectorAll('#theme-toggle-landing i, #theme-toggle-dashboard i, #theme-toggle-tool i, #theme-toggle-regex i, #theme-toggle-json i, #theme-toggle-color i, #theme-toggle-markdown i, #theme-toggle-checkout i, #theme-toggle-download i');
-    
+    const isDark = mode === 'dark' || (mode === 'auto' && this._systemMQ.matches);
+
+    // Smooth transition (add class temporarily)
+    if (!this._transitioning) {
+      this._transitioning = true;
+      html.classList.add('theme-transitioning');
+      setTimeout(() => {
+        html.classList.remove('theme-transitioning');
+        this._transitioning = false;
+      }, 500);
+    }
+
     if (isDark) {
       html.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-      icon.forEach(i => { i.className = 'fas fa-sun'; });
     } else {
       html.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-      icon.forEach(i => { i.className = 'fas fa-moon'; });
     }
+
+    localStorage.setItem('theme', mode);
+    this._updateIcons(mode);
   },
 
-  toggle() {
-    const isDark = document.documentElement.classList.contains('dark');
-    this.apply(!isDark);
-  },
-
-  bindButtons() {
-    const buttons = [
-      'theme-toggle-landing', 'theme-toggle-dashboard', 'theme-toggle-tool',
-      'theme-toggle-regex', 'theme-toggle-json', 'theme-toggle-color',
-      'theme-toggle-markdown'
-    ];
-    buttons.forEach(id => {
-      const btn = document.getElementById(id);
-      if (btn) btn.addEventListener('click', () => this.toggle());
+  // ── Update all toggle button icons ──
+  _updateIcons(mode) {
+    const icon = this._iconMap[mode];
+    const label = this._labelMap[mode];
+    document.querySelectorAll('[id^="theme-toggle"]').forEach(btn => {
+      const i = btn.querySelector('i');
+      if (i) i.className = `fas ${icon}`;
+      btn.setAttribute('aria-label', label);
+      btn.title = label;
     });
+  },
+
+  // ── Cycle: dark → light → auto → dark ──
+  toggle() {
+    const current = localStorage.getItem('theme') || 'auto';
+    const idx = this._modes.indexOf(current);
+    const next = this._modes[(idx + 1) % this._modes.length];
+    this._apply(next);
+
+    // Announce to screen reader
+    const labels = { dark: 'Dark mode', light: 'Light mode', auto: 'System mode (auto)' };
+    showNotification(`Theme: ${labels[next]}`, 'info', 1500);
+  },
+
+  // ── Listen to OS theme changes when in auto mode ──
+  _bindSystemSync() {
+    this._systemMQ.addEventListener('change', () => {
+      const mode = localStorage.getItem('theme') || 'auto';
+      if (mode === 'auto') {
+        this._apply('auto'); // re-apply to update dark class
+      }
+    });
+  },
+
+  // ── Bind click handlers ──
+  _bindButtons() {
+    document.querySelectorAll('[id^="theme-toggle"]').forEach(btn => {
+      btn.addEventListener('click', () => this.toggle());
+    });
+  },
+
+  // ── Public getters ──
+  get currentMode() {
+    return localStorage.getItem('theme') || 'auto';
+  },
+
+  get isDark() {
+    return document.documentElement.classList.contains('dark');
   }
 };
 
