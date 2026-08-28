@@ -8,7 +8,7 @@
 set -euo pipefail
 
 DIST_DIR="dist"
-SRC_JS=("js/app.js" "js/tools.js" "js/checkout.js")
+SRC_JS=("js/db.js" "js/app.js" "js/tools.js" "js/checkout.js")
 SRC_CSS="css/styles.css"
 
 echo "🔧 DevFlow Suite — Minification"

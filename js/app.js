@@ -670,7 +670,10 @@ const OnboardingTour = {
 };
 
 // ─── Initialize App ─────────────────────
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  // Initialize IndexedDB (async, non-blocking)
+  if (typeof DB !== 'undefined') await DB.init();
+
   ThemeManager.init();
   Router.init();
   PWA.init();

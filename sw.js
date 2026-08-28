@@ -1,4 +1,4 @@
-const CACHE_NAME = 'devflow-suite-v2';
+const CACHE_NAME = 'devflow-suite-v3';
 const OFFLINE_URL = 'offline.html';
 
 const urlsToCache = [
@@ -6,6 +6,7 @@ const urlsToCache = [
   '/index.html',
   '/css/styles.css',
   '/manifest.json',
+  '/js/db.js',
   '/js/app.js',
   '/js/tools.js',
   '/js/checkout.js',

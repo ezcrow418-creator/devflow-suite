@@ -27,23 +27,43 @@ const SnippetManager = {
   _undoTimeout: null,
 
   init() {
-    this.load();
-    this.render();
     this.bindEvents();
+    this.render(); // render immediately (empty or cached)
+    this.load();   // async load from IndexedDB, re-renders when done
   },
 
-  load() {
+  async load() {
     try {
-      const data = localStorage.getItem(this.storageKey);
-      this.snippets = data ? JSON.parse(data) : [];
+      if (typeof DB !== 'undefined') {
+        await DB.ready();
+        // Migrate from localStorage on first run
+        await DB.migrateFromLocalStorage(this.storageKey, 'snippets');
+        this.snippets = await DB.getAll('snippets');
+      } else {
+        // Fallback: localStorage
+        const data = localStorage.getItem(this.storageKey);
+        this.snippets = data ? JSON.parse(data) : [];
+      }
     } catch (e) {
+      console.warn('[SnippetManager] Load failed:', e);
       this.snippets = [];
     }
     this.filteredSnippets = [...this.snippets];
+    this.render(); // re-render with loaded data
   },
 
-  save() {
-    localStorage.setItem(this.storageKey, JSON.stringify(this.snippets));
+  async save() {
+    try {
+      if (typeof DB !== 'undefined' && !DB._useFallback) {
+        await DB.putAll('snippets', this.snippets);
+      } else {
+        localStorage.setItem(this.storageKey, JSON.stringify(this.snippets));
+      }
+    } catch (e) {
+      console.warn('[SnippetManager] Save failed:', e);
+      // Fallback to localStorage
+      localStorage.setItem(this.storageKey, JSON.stringify(this.snippets));
+    }
   },
 
   bindEvents() {
