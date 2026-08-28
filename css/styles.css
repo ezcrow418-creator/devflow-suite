@@ -382,3 +382,138 @@ select:focus-visible {
     color: HighlightText;
   }
 }
+
+/* ===== ONBOARDING TOUR ===== */
+#tour-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 998;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+#tour-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.tour-spotlight {
+  position: fixed;
+  z-index: 999;
+  border-radius: 12px;
+  box-shadow: 0 0 0 4000px rgba(0, 0, 0, 0.7);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: auto;
+}
+
+#tour-tooltip {
+  position: fixed;
+  z-index: 1000;
+  max-width: 380px;
+  width: calc(100vw - 2rem);
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  padding: 1.5rem;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: auto;
+}
+
+html.dark #tour-tooltip {
+  background: #1e293b;
+  color: #e2e8f0;
+}
+
+#tour-tooltip.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#tour-tooltip .tour-step-indicator {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 0.75rem;
+}
+
+#tour-tooltip .tour-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d1d5db;
+  transition: all 0.3s;
+}
+
+#tour-tooltip .tour-dot.active {
+  background: linear-gradient(135deg, #3b82f8, #8b5cf6);
+  width: 24px;
+  border-radius: 4px;
+}
+
+#tour-tooltip h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #111827;
+}
+
+html.dark #tour-tooltip h3 {
+  color: #f8fafc;
+}
+
+#tour-tooltip p {
+  font-size: 0.875rem;
+  color: #6b7280;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+html.dark #tour-tooltip p {
+  color: #94a3b8;
+}
+
+.tour-btn-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tour-btn-row button {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.tour-btn-next {
+  background: linear-gradient(135deg, #3b82f8, #8b5cf6);
+  color: white;
+}
+
+.tour-btn-next:hover {
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.tour-btn-skip {
+  background: transparent;
+  color: #9ca3af;
+}
+
+.tour-btn-skip:hover {
+  color: #6b7280;
+}
+
+.tour-btn-done {
+  background: #22c55e;
+  color: white;
+}
+
+.tour-btn-done:hover {
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+}

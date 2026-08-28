@@ -519,6 +519,156 @@ const Shortcuts = {
   }
 };
 
+// ─── Onboarding Tour ─────────────────
+const OnboardingTour = {
+  _currentStep: 0,
+  _steps: [
+    {
+      target: '[data-tool="snippets"]',
+      title: '📁 Snippet Vault',
+      desc: 'Save, tag, and organize your code snippets with syntax highlighting for 20+ languages. Your code, always accessible.',
+      pos: 'bottom'
+    },
+    {
+      target: '[data-tool="regex"]',
+      title: '🔍 Regex Forge',
+      desc: 'Test regex patterns in real-time with match highlighting, capture groups, and flag toggles (g, i, m, s, u, y).',
+      pos: 'bottom'
+    },
+    {
+      target: '[data-tool="json"]',
+      title: '📋 JSON Wizard',
+      desc: 'Format, minify, validate, and colorize JSON data instantly. Perfect for API responses and config files.',
+      pos: 'bottom'
+    },
+    {
+      target: '[data-tool="color"]',
+      title: '🎨 ColorCraft',
+      desc: 'Upload images to extract color palettes, pick colors, and generate harmonies (complementary, triadic, etc.).',
+      pos: 'bottom'
+    },
+    {
+      target: '[data-tool="markdown"]',
+      title: '✍️ Markdown Editor',
+      desc: 'Write Markdown with live preview, export to HTML, and distraction-free fullscreen mode.',
+      pos: 'bottom'
+    },
+    {
+      target: null,
+      title: '🎉 You\'re all set!',
+      desc: 'All tools work offline and store data locally in your browser. No signup required. Press <kbd class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-xs font-mono">Ctrl+K</kbd> anytime to open the command palette.',
+      pos: 'center'
+    }
+  ],
+
+  init() {
+    const seen = localStorage.getItem('devflow_tour_done');
+    if (!seen) {
+      // Wait for dashboard to be visible, then start
+      setTimeout(() => this.start(), 600);
+    }
+  },
+
+  start() {
+    this._currentStep = 0;
+    document.getElementById('tour-overlay')?.classList.add('active');
+    this._showStep();
+  },
+
+  _showStep() {
+    const step = this._steps[this._currentStep];
+    const spotlight = document.getElementById('tour-spotlight');
+    const tooltip = document.getElementById('tour-tooltip');
+    const title = document.getElementById('tour-title');
+    const desc = document.getElementById('tour-desc');
+    const dots = document.getElementById('tour-dots');
+    const nextBtn = document.getElementById('tour-next');
+    if (!tooltip || !title || !desc) return;
+
+    // Dots
+    dots.innerHTML = this._steps.map((_, i) =>
+      `<div class="tour-dot${i === this._currentStep ? ' active' : ''}"></div>`
+    ).join('');
+
+    // Content
+    title.textContent = step.title;
+    desc.innerHTML = step.desc;
+
+    // Button text
+    const isLast = this._currentStep === this._steps.length - 1;
+    nextBtn.textContent = isLast ? 'Get started ✓' : 'Next →';
+    nextBtn.className = isLast ? 'tour-btn-done' : 'tour-btn-next';
+
+    // Position tooltip
+    if (step.pos === 'center' || !step.target) {
+      spotlight.style.display = 'none';
+      tooltip.style.left = '50%';
+      tooltip.style.top = '50%';
+      tooltip.style.transform = 'translate(-50%, -50%)';
+    } else {
+      const el = document.querySelector(step.target);
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        const pad = 8;
+        spotlight.style.display = 'block';
+        spotlight.style.top = (rect.top - pad) + 'px';
+        spotlight.style.left = (rect.left - pad) + 'px';
+        spotlight.style.width = (rect.width + pad * 2) + 'px';
+        spotlight.style.height = (rect.height + pad * 2) + 'px';
+
+        // Tooltip below the element
+        tooltip.style.transform = '';
+        const tooltipW = 380;
+        let left = rect.left + rect.width / 2 - tooltipW / 2;
+        left = Math.max(16, Math.min(left, window.innerWidth - tooltipW - 16));
+        tooltip.style.left = left + 'px';
+        tooltip.style.top = (rect.bottom + 16) + 'px';
+
+        // If tooltip would go below viewport, show above
+        if (rect.bottom + 250 > window.innerHeight) {
+          tooltip.style.top = (rect.top - 16) + 'px';
+          tooltip.style.transform = 'translateY(-100%)';
+        }
+      }
+    }
+
+    // Show with animation
+    requestAnimationFrame(() => {
+      tooltip.classList.add('visible');
+    });
+
+    // Bind buttons
+    nextBtn.onclick = () => this._next();
+    document.getElementById('tour-skip').onclick = () => this._end();
+
+    // ESC to skip
+    this._escHandler = (e) => {
+      if (e.key === 'Escape') this._end();
+    };
+    document.addEventListener('keydown', this._escHandler);
+  },
+
+  _next() {
+    const tooltip = document.getElementById('tour-tooltip');
+    tooltip?.classList.remove('visible');
+
+    this._currentStep++;
+    if (this._currentStep >= this._steps.length) {
+      this._end();
+    } else {
+      setTimeout(() => this._showStep(), 200);
+    }
+  },
+
+  _end() {
+    document.removeEventListener('keydown', this._escHandler);
+    document.getElementById('tour-overlay')?.classList.remove('active');
+    document.getElementById('tour-spotlight').style.display = 'none';
+    document.getElementById('tour-tooltip')?.classList.remove('visible');
+    localStorage.setItem('devflow_tour_done', '1');
+  }
+};
+
 // ─── Initialize App ─────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   ThemeManager.init();
@@ -526,6 +676,7 @@ document.addEventListener('DOMContentLoaded', () => {
   PWA.init();
   Analytics.init();
   Shortcuts.init();
+  OnboardingTour.init();
 
   // Check for deep link
   const hash = window.location.hash.replace('#', '');

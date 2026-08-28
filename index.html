@@ -495,6 +495,9 @@
       <div class="text-center">
         <p class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">💾 Data stored in your browser. No servers. No tracking.</p>
         <p class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm mt-0.5 sm:mt-1 hidden sm:block">✨ Install as PWA for offline access on any device.</p>
+        <button onclick="localStorage.removeItem('devflow_tour_done');OnboardingTour.start()" class="mt-2 text-xs text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 transition-colors hidden sm:inline-flex items-center gap-1">
+          <i class="fas fa-redo text-[10px]" aria-hidden="true"></i> Replay tour
+        </button>
         <p class="text-gray-400 dark:text-gray-500 text-xs mt-2 sm:mt-3 hidden sm:block">
           <kbd class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 rounded border dark:border-gray-700 font-mono">Ctrl+K</kbd> Command palette &nbsp;·&nbsp;
           <kbd class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 rounded border dark:border-gray-700 font-mono">1-5</kbd> Open tool &nbsp;·&nbsp;
@@ -1015,6 +1018,19 @@ console.log("Hello World");
 
   <!-- Live region for screen reader announcements -->
   <div id="a11y-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Onboarding Tour -->
+  <div id="tour-overlay"></div>
+  <div class="tour-spotlight" id="tour-spotlight" style="display:none"></div>
+  <div id="tour-tooltip" role="dialog" aria-label="Onboarding tour">
+    <div class="tour-step-indicator" id="tour-dots"></div>
+    <h3 id="tour-title"></h3>
+    <p id="tour-desc"></p>
+    <div class="tour-btn-row">
+      <button class="tour-btn-skip" id="tour-skip">Skip tour</button>
+      <button class="tour-btn-next" id="tour-next">Next →</button>
+    </div>
+  </div>
 
   <noscript><style>.hidden{display:block!important}</style><p style="padding:2rem;text-align:center;color:#64748b;">DevFlow Suite requires JavaScript to run. Please enable it in your browser.</p></noscript>
 
