@@ -85,6 +85,7 @@ const SnippetManager = {
   snippets: [],
   filteredSnippets: [],
   currentEditId: null,
+  _selectedIds: new Set(),
 
   init() {
     this.bindEvents();
@@ -324,8 +325,10 @@ const SnippetManager = {
       `;
     } else {
       container.innerHTML = this.filteredSnippets.map((s, i) => `
-        <div class="snippet-card group bg-white dark:bg-gray-800 rounded-xl shadow-sm dark:shadow-none dark:border dark:border-gray-700 overflow-hidden transition-all duration-200" draggable="true" data-id="${s.id}" data-index="${i}">
+        <div class="snippet-card group bg-white dark:bg-gray-800 rounded-xl shadow-sm dark:shadow-none dark:border dark:border-gray-700 overflow-hidden transition-all duration-200${this._selectedIds.has(s.id) ? ' selected' : ''}" draggable="true" data-id="${s.id}" data-index="${i}">
           <div class="flex items-center p-4 border-b dark:border-gray-700 gap-3">
+            <!-- Checkbox -->
+            <input type="checkbox" class="snippet-checkbox w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-blue-500 focus:ring-blue-500 cursor-pointer flex-shrink-0" data-id="${s.id}"${this._selectedIds.has(s.id) ? ' checked' : ''} aria-label="Select snippet ${escapeHtml(s.title)}">
             <!-- Drag handle -->
             <div class="drag-handle cursor-grab text-gray-300 dark:text-gray-600 hover:text-gray-500 dark:hover:text-gray-400 transition-colors flex-shrink-0" title="Drag to reorder">
               <i class="fas fa-grip-vertical"></i>
@@ -357,6 +360,9 @@ const SnippetManager = {
 
       // Bind drag-and-drop events
       this._bindDragEvents(container);
+
+      // Bind selection events
+      this._bindSelectionEvents(container);
 
       // Re-highlight syntax
       if (typeof Prism !== 'undefined') {
@@ -448,6 +454,119 @@ const SnippetManager = {
     // Save and re-render
     this.save();
     this.render();
+  },
+
+  // ── Selection & Bulk Actions ──────────
+  toggleSelect(id) {
+    if (this._selectedIds.has(id)) {
+      this._selectedIds.delete(id);
+    } else {
+      this._selectedIds.add(id);
+    }
+    this._updateBulkBar();
+    this._highlightSelected();
+  },
+
+  selectAll() {
+    this.filteredSnippets.forEach(s => this._selectedIds.add(s.id));
+    this._updateBulkBar();
+    this._highlightSelected();
+  },
+
+  deselectAll() {
+    this._selectedIds.clear();
+    this._updateBulkBar();
+    this._highlightSelected();
+  },
+
+  toggleSelectAll() {
+    if (this._selectedIds.size === this.filteredSnippets.length) {
+      this.deselectAll();
+    } else {
+      this.selectAll();
+    }
+  },
+
+  _highlightSelected() {
+    document.querySelectorAll('.snippet-card').forEach(card => {
+      const id = card.dataset.id;
+      const isSelected = this._selectedIds.has(id);
+      card.classList.toggle('selected', isSelected);
+      const cb = card.querySelector('.snippet-checkbox');
+      if (cb) cb.checked = isSelected;
+    });
+    // Update header checkbox
+n    const headerCb = document.getElementById('snippet-select-all');
+    if (headerCb) {
+      const total = this.filteredSnippets.length;
+      const selected = this._selectedIds.size;
+      headerCb.checked = total > 0 && selected === total;
+      headerCb.indeterminate = selected > 0 && selected < total;
+    }
+  },
+
+  _updateBulkBar() {
+    const bar = document.getElementById('bulk-actions');
+    const count = document.getElementById('bulk-count');
+    if (!bar) return;
+    if (this._selectedIds.size > 0) {
+      bar.classList.remove('hidden');
+      if (count) count.textContent = this._selectedIds.size;
+    } else {
+      bar.classList.add('hidden');
+    }
+  },
+
+  bulkDelete() {
+    if (this._selectedIds.size === 0) return;
+    const count = this._selectedIds.size;
+    SnippetHistory.record(this.snippets);
+    this.snippets = this.snippets.filter(s => !this._selectedIds.has(s.id));
+    this._selectedIds.clear();
+    this.save();
+    this.render();
+    this._updateBulkBar();
+    showNotification(`${count} snippet${count > 1 ? 's' : ''} deleted`, 'info', 2000);
+  },
+
+  bulkExport() {
+    const selected = this.snippets.filter(s => this._selectedIds.has(s.id));
+    if (selected.length === 0) return;
+    const data = JSON.stringify(selected, null, 2);
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `devflow-snippets-${selected.length}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showNotification(`Exported ${selected.length} snippet${selected.length > 1 ? 's' : ''}`);
+  },
+
+  bulkChangeLanguage(lang) {
+    if (!lang || this._selectedIds.size === 0) return;
+    SnippetHistory.record(this.snippets);
+    let count = 0;
+    this.snippets.forEach(s => {
+      if (this._selectedIds.has(s.id)) {
+        s.language = lang;
+        count++;
+      }
+    });
+    this._selectedIds.clear();
+    this.save();
+    this.render();
+    this._updateBulkBar();
+    showNotification(`${count} snippet${count > 1 ? 's' : ''} → ${lang}`, 'success', 2000);
+  },
+
+  _bindSelectionEvents(container) {
+    container.querySelectorAll('.snippet-checkbox').forEach(cb => {
+      cb.addEventListener('change', (e) => {
+        e.stopPropagation();
+        this.toggleSelect(cb.dataset.id);
+      });
+    });
   }
 };
 

@@ -565,6 +565,19 @@ html.dark .snippet-card:not(.dragging):hover .drag-handle {
   color: #6b7280;
 }
 
+/* Selected state */
+.snippet-card.selected {
+  background: #eff6ff;
+  border-color: #3b82f8;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+html.dark .snippet-card.selected {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: #3b82f8;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
 /* Reduced motion: disable drag animations */
 @media (prefers-reduced-motion: reduce) {
   .snippet-card {

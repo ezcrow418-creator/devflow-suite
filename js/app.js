@@ -471,6 +471,11 @@ const Shortcuts = {
       } else if ((e.key === 'z' && e.shiftKey) || e.key === 'y') {
         e.preventDefault();
         SnippetManager.redo();
+      } else if (e.key === 'a') {
+        e.preventDefault();
+        SnippetManager.toggleSelectAll();
+      } else if (e.key === 'Escape') {
+        SnippetManager.deselectAll();
       }
     }
   },

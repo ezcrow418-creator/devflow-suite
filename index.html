@@ -557,6 +557,43 @@
           <input type="text" id="snippet-search" placeholder="Search snippets..." class="w-full px-4 py-2 pl-10 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
           <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
         </div>
+        <!-- Select all checkbox -->
+        <div class="flex items-center gap-2 mt-3">
+          <input type="checkbox" id="snippet-select-all" class="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-blue-500 focus:ring-blue-500 cursor-pointer" onchange="SnippetManager.toggleSelectAll()" aria-label="Select all snippets">
+          <label for="snippet-select-all" class="text-sm text-gray-500 dark:text-gray-400 cursor-pointer">Select all</label>
+        </div>
+      </div>
+
+      <!-- Bulk Actions Bar -->
+      <div id="bulk-actions" class="hidden mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl flex items-center justify-between">
+        <span class="text-sm text-blue-700 dark:text-blue-300 font-medium">
+          <i class="fas fa-check-double mr-1"></i> <span id="bulk-count">0</span> selected
+        </span>
+        <div class="flex items-center gap-2">
+          <select id="bulk-language" class="px-3 py-1.5 text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" onchange="SnippetManager.bulkChangeLanguage(this.value);this.value='';">
+            <option value="">Change language...</option>
+            <option value="javascript">JavaScript</option>
+            <option value="python">Python</option>
+            <option value="typescript">TypeScript</option>
+            <option value="go">Go</option>
+            <option value="rust">Rust</option>
+            <option value="html">HTML</option>
+            <option value="css">CSS</option>
+            <option value="bash">Bash</option>
+            <option value="sql">SQL</option>
+            <option value="json">JSON</option>
+            <option value="yaml">YAML</option>
+          </select>
+          <button onclick="SnippetManager.bulkExport()" class="px-3 py-1.5 text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center gap-1">
+            <i class="fas fa-download text-xs"></i> Export
+          </button>
+          <button onclick="SnippetManager.bulkDelete()" class="px-3 py-1.5 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors flex items-center gap-1">
+            <i class="fas fa-trash text-xs"></i> Delete
+          </button>
+          <button onclick="SnippetManager.deselectAll()" class="px-3 py-1.5 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors" title="Clear selection">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
       </div>
 
       <div id="snippet-form-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
