@@ -53,6 +53,96 @@
   <link rel="stylesheet" href="css/styles.css">
 
   <title>DevFlow Suite — All-in-One Developer Tools</title>
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "DevFlow Suite",
+    "description": "5+ essential developer tools in one privacy-first Progressive Web App. Snippet manager, regex tester, JSON formatter, color palette generator, markdown editor. Free. No signup. Works offline.",
+    "url": "https://ezcrow418-creator.github.io/devflow-suite/",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any (Web-based)",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "description": "All core tools are free forever"
+    },
+    "featureList": [
+      "Snippet Vault — Save, tag, and organize code snippets with syntax highlighting",
+      "Regex Forge — Real-time regex testing with flags and match details",
+      "JSON Wizard — Format, minify, validate, and visualize JSON",
+      "ColorCraft — Generate color palettes from images and explore harmonies",
+      "Markdown Editor — Live preview with export to HTML"
+    ],
+    "browserRequirements": "Requires a modern web browser with JavaScript enabled",
+    "softwareHelp": {
+      "@type": "CreativeWork",
+      "url": "https://github.com/ezcrow418-creator/devflow-suite#readme"
+    },
+    "screenshot": "https://ezcrow418-creator.github.io/devflow-suite/assets/icons/icon-512.png",
+    "author": {
+      "@type": "Person",
+      "name": "ezcrow418-creator",
+      "url": "https://github.com/ezcrow418-creator"
+    },
+    "sameAs": [
+      "https://github.com/ezcrow418-creator/devflow-suite"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://ezcrow418-creator.github.io/devflow-suite/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Tools",
+        "item": "https://ezcrow418-creator.github.io/devflow-suite/#dashboard"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Snippet Vault",
+        "item": "https://ezcrow418-creator.github.io/devflow-suite/#snippets"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Regex Forge",
+        "item": "https://ezcrow418-creator.github.io/devflow-suite/#regex"
+      },
+      {
+        "@type": "ListItem",
+        "position": 5,
+        "name": "JSON Wizard",
+        "item": "https://ezcrow418-creator.github.io/devflow-suite/#json"
+      },
+      {
+        "@type": "ListItem",
+        "position": 6,
+        "name": "ColorCraft",
+        "item": "https://ezcrow418-creator.github.io/devflow-suite/#color"
+      },
+      {
+        "@type": "ListItem",
+        "position": 7,
+        "name": "Markdown Editor",
+        "item": "https://ezcrow418-creator.github.io/devflow-suite/#markdown"
+      }
+    ]
+  }
+  </script>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans transition-colors duration-300">
 
@@ -426,6 +516,17 @@
             <i class="fas fa-folder-open text-blue-500" aria-hidden="true"></i> Snippet Vault
           </h1>
         </div>
+      </div>
+      <!-- Breadcrumb -->
+      <nav aria-label="Breadcrumb" class="mb-4">
+        <ol class="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400">
+          <li><a href="#" onclick="Router.navigate('landing');return false" class="hover:text-blue-500 transition-colors">Home</a></li>
+          <li aria-hidden="true"><i class="fas fa-chevron-right text-xs"></i></li>
+          <li><a href="#" onclick="Router.navigate('dashboard');return false" class="hover:text-blue-500 transition-colors">Tools</a></li>
+          <li aria-hidden="true"><i class="fas fa-chevron-right text-xs"></i></li>
+          <li class="text-gray-900 dark:text-white font-medium" aria-current="page">Snippet Vault</li>
+        </ol>
+      </nav>
         <button id="theme-toggle-tool" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors" aria-label="Toggle dark mode">
           <i class="fas fa-moon" aria-hidden="true"></i>
         </button>
@@ -511,6 +612,17 @@
             <i class="fas fa-magic text-green-500" aria-hidden="true"></i> Regex Forge
           </h1>
         </div>
+      </div>
+      <!-- Breadcrumb -->
+      <nav aria-label="Breadcrumb" class="mb-4">
+        <ol class="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400">
+          <li><a href="#" onclick="Router.navigate('landing');return false" class="hover:text-blue-500 transition-colors">Home</a></li>
+          <li aria-hidden="true"><i class="fas fa-chevron-right text-xs"></i></li>
+          <li><a href="#" onclick="Router.navigate('dashboard');return false" class="hover:text-blue-500 transition-colors">Tools</a></li>
+          <li aria-hidden="true"><i class="fas fa-chevron-right text-xs"></i></li>
+          <li class="text-gray-900 dark:text-white font-medium" aria-current="page">Regex Forge</li>
+        </ol>
+      </nav>
         <button id="theme-toggle-regex" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors" aria-label="Toggle dark mode">
           <i class="fas fa-moon" aria-hidden="true"></i>
         </button>
@@ -572,6 +684,17 @@
             <i class="fas fa-cubes text-orange-500" aria-hidden="true"></i> JSON Wizard
           </h1>
         </div>
+      </div>
+      <!-- Breadcrumb -->
+      <nav aria-label="Breadcrumb" class="mb-4">
+        <ol class="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400">
+          <li><a href="#" onclick="Router.navigate('landing');return false" class="hover:text-blue-500 transition-colors">Home</a></li>
+          <li aria-hidden="true"><i class="fas fa-chevron-right text-xs"></i></li>
+          <li><a href="#" onclick="Router.navigate('dashboard');return false" class="hover:text-blue-500 transition-colors">Tools</a></li>
+          <li aria-hidden="true"><i class="fas fa-chevron-right text-xs"></i></li>
+          <li class="text-gray-900 dark:text-white font-medium" aria-current="page">JSON Wizard</li>
+        </ol>
+      </nav>
         <button id="theme-toggle-json" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors" aria-label="Toggle dark mode">
           <i class="fas fa-moon" aria-hidden="true"></i>
         </button>
@@ -608,6 +731,16 @@
           <i class="fas fa-moon" aria-hidden="true"></i>
         </button>
       </div>
+      <!-- Breadcrumb -->
+      <nav aria-label="Breadcrumb" class="mb-4">
+        <ol class="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400">
+          <li><a href="#" onclick="Router.navigate('landing');return false" class="hover:text-blue-500 transition-colors">Home</a></li>
+          <li aria-hidden="true"><i class="fas fa-chevron-right text-xs"></i></li>
+          <li><a href="#" onclick="Router.navigate('dashboard');return false" class="hover:text-blue-500 transition-colors">Tools</a></li>
+          <li aria-hidden="true"><i class="fas fa-chevron-right text-xs"></i></li>
+          <li class="text-gray-900 dark:text-white font-medium" aria-current="page">ColorCraft</li>
+        </ol>
+      </nav>
 
       <div class="mb-6">
         <label class="block text-sm font-medium mb-1">Upload Image or Enter URL</label>
@@ -686,6 +819,16 @@
           </button>
         </div>
       </div>
+      <!-- Breadcrumb -->
+      <nav aria-label="Breadcrumb" class="mb-4">
+        <ol class="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400">
+          <li><a href="#" onclick="Router.navigate('landing');return false" class="hover:text-blue-500 transition-colors">Home</a></li>
+          <li aria-hidden="true"><i class="fas fa-chevron-right text-xs"></i></li>
+          <li><a href="#" onclick="Router.navigate('dashboard');return false" class="hover:text-blue-500 transition-colors">Tools</a></li>
+          <li aria-hidden="true"><i class="fas fa-chevron-right text-xs"></i></li>
+          <li class="text-gray-900 dark:text-white font-medium" aria-current="page">Markdown Editor</li>
+        </ol>
+      </nav>
 
       <div class="flex gap-3 mb-4">
         <button id="btn-md-export" class="px-4 py-2 bg-pink-500 text-white rounded-lg font-medium hover:bg-pink-600 transition-colors"><i class="fas fa-download mr-1"></i> Export HTML</button>
