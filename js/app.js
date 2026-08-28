@@ -232,35 +232,74 @@ const Router = {
 // ─── PWA ─────────────────────────────────
 const PWA = {
   deferredPrompt: null,
+  _showDelay: 5000, // wait 5s after page load before showing
+  _dismissKey: 'devflow_install_dismissed',
+  _dismissCooldown: 7 * 24 * 60 * 60 * 1000, // 7 days
 
   init() {
+    // Don't show if already dismissed recently
+    const dismissed = localStorage.getItem(this._dismissKey);
+    if (dismissed && (Date.now() - parseInt(dismissed)) < this._dismissCooldown) return;
+
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       this.deferredPrompt = e;
-      this.showBanner();
+      // Delay showing the banner
+      setTimeout(() => this._showBanner(), this._showDelay);
     });
 
+    // Bind dismiss buttons
+    document.querySelectorAll('.install-dismiss').forEach(btn => {
+      btn.addEventListener('click', () => this._dismiss());
+    });
+
+    // Bind install button
+    const installBtn = document.querySelector('.install-btn');
+    installBtn?.addEventListener('click', () => this._install());
+
+    // Track if already installed
+    window.addEventListener('appinstalled', () => {
+      this.deferredPrompt = null;
+      this._dismiss();
+      showNotification('DevFlow Suite installed! 🎉', 'success', 3000);
+    });
+  },
+
+  _showBanner() {
     const banner = document.getElementById('installBanner');
-    if (banner) {
-      banner.querySelector('.install-dismiss')?.addEventListener('click', () => {
-        banner.classList.remove('show');
-      });
+    if (!banner || !this.deferredPrompt) return;
+    banner.classList.add('show');
+  },
+
+  async _install() {
+    const banner = document.getElementById('installBanner');
+    if (!this.deferredPrompt) return;
+
+    // Show native install prompt
+    this.deferredPrompt.prompt();
+    const { outcome } = await this.deferredPrompt.userChoice;
+    this.deferredPrompt = null;
+
+    if (outcome === 'accepted') {
+      banner?.classList.remove('show');
+      showNotification('Installing DevFlow Suite...', 'info', 2000);
     }
   },
 
-  showBanner() {
+  _dismiss() {
     const banner = document.getElementById('installBanner');
-    if (!banner) return;
-    banner.classList.add('show');
-    const installBtn = banner.querySelector('.install-btn');
-    installBtn?.addEventListener('click', async () => {
-      banner.classList.remove('show');
-      if (this.deferredPrompt) {
-        this.deferredPrompt.prompt();
-        const { outcome } = await this.deferredPrompt.userChoice;
-        this.deferredPrompt = null;
-      }
-    });
+    banner?.classList.remove('show');
+    localStorage.setItem(this._dismissKey, String(Date.now()));
+  },
+
+  // ── One-click install from landing page ──
+  async installFromHero() {
+    if (this.deferredPrompt) {
+      await this._install();
+    } else {
+      // Fallback: show instructions
+      showNotification('Use your browser\'s install button (≡ or ⋮ menu) to install.', 'info', 5000);
+    }
   }
 };
 

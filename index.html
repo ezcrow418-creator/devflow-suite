@@ -208,6 +208,9 @@
           <i class="fas fa-rocket"></i> Start Using DevFlow Suite — It's Free
         </button>
         <p class="text-sm text-gray-500 dark:text-gray-400 mt-4">No installation needed. No signup required.</p>
+        <button id="btn-install-hero" onclick="PWA.installFromHero()" class="mt-3 px-5 py-2 text-sm text-blue-500 dark:text-blue-400 border border-blue-200 dark:border-blue-800 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors inline-flex items-center gap-2">
+          <i class="fas fa-download"></i> Install as App
+        </button>
       </div>
     </section>
 
@@ -1052,12 +1055,26 @@ console.log("Hello World");
 
   <!-- ===== PWA INSTALL BANNER ===== -->
   <div id="installBanner">
-    <span class="install-dismiss"><i class="fas fa-times"></i></span>
-    <p class="font-bold text-lg mb-1">Install DevFlow Suite</p>
-    <p class="text-sm opacity-90 mb-3">Add to your home screen for offline access.</p>
-    <div class="flex gap-2">
-      <button class="install-btn">Install</button>
-      <button class="install-dismiss">Not now</button>
+    <div class="install-header">
+      <div class="install-icon">
+        <i class="fas fa-bolt"></i>
+      </div>
+      <div>
+        <p class="font-bold text-base">Install DevFlow Suite</p>
+        <p class="text-xs opacity-80">Free · Works offline · No signup</p>
+      </div>
+      <button class="install-dismiss" aria-label="Dismiss"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="install-benefits">
+      <div class="install-benefit"><i class="fas fa-bolt"></i> Instant access from home screen</div>
+      <div class="install-benefit"><i class="fas fa-wifi-slash"></i> Works fully offline</div>
+      <div class="install-benefit"><i class="fas fa-shield-alt"></i> No data leaves your device</div>
+    </div>
+    <div class="install-actions">
+      <button class="install-btn">
+        <i class="fas fa-download"></i> Install now
+      </button>
+      <button class="install-dismiss install-btn-later">Later</button>
     </div>
   </div>
 
