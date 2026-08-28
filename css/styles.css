@@ -525,3 +525,49 @@ html.dark #tour-tooltip p {
 .tour-btn-done:hover {
   box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
 }
+
+/* ===== DRAG & DROP ===== */
+
+.snippet-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.snippet-card .drag-handle {
+  touch-action: none;
+  user-select: none;
+}
+
+.snippet-card.dragging {
+  opacity: 0.4;
+  transform: scale(0.98);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+html.dark .snippet-card.dragging {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.snippet-card.drag-over-top {
+  border-top: 3px solid #3b82f8;
+  margin-top: -3px;
+}
+
+.snippet-card.drag-over-bottom {
+  border-bottom: 3px solid #3b82f8;
+  margin-bottom: -3px;
+}
+
+.snippet-card:not(.dragging):hover .drag-handle {
+  color: #9ca3af;
+}
+
+html.dark .snippet-card:not(.dragging):hover .drag-handle {
+  color: #6b7280;
+}
+
+/* Reduced motion: disable drag animations */
+@media (prefers-reduced-motion: reduce) {
+  .snippet-card {
+    transition: none;
+  }
+}

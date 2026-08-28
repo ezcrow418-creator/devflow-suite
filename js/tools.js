@@ -313,18 +313,22 @@ const SnippetManager = {
         </div>
       `;
     } else {
-      container.innerHTML = this.filteredSnippets.map(s => `
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm dark:shadow-none dark:border dark:border-gray-700 overflow-hidden">
-          <div class="flex items-center justify-between p-4 border-b dark:border-gray-700">
-            <div>
-              <h3 class="font-bold text-lg">${escapeHtml(s.title)}</h3>
-              <div class="flex items-center gap-2 mt-1">
+      container.innerHTML = this.filteredSnippets.map((s, i) => `
+        <div class="snippet-card group bg-white dark:bg-gray-800 rounded-xl shadow-sm dark:shadow-none dark:border dark:border-gray-700 overflow-hidden transition-all duration-200" draggable="true" data-id="${s.id}" data-index="${i}">
+          <div class="flex items-center p-4 border-b dark:border-gray-700 gap-3">
+            <!-- Drag handle -->
+            <div class="drag-handle cursor-grab text-gray-300 dark:text-gray-600 hover:text-gray-500 dark:hover:text-gray-400 transition-colors flex-shrink-0" title="Drag to reorder">
+              <i class="fas fa-grip-vertical"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+              <h3 class="font-bold text-lg truncate">${escapeHtml(s.title)}</h3>
+              <div class="flex items-center gap-2 mt-1 flex-wrap">
                 <span class="px-2 py-0.5 text-xs bg-gray-100 dark:bg-gray-700 rounded-full text-gray-600 dark:text-gray-300">${escapeHtml(s.language)}</span>
                 ${s.tags ? s.tags.split(',').map(tag => '<span class="px-2 py-0.5 text-xs bg-blue-100 dark:bg-blue-900/30 rounded-full text-blue-700 dark:text-blue-300">' + escapeHtml(tag.trim()) + '</span>').join('') : ''}
               </div>
             </div>
-            <div class="flex gap-1">
-              <button onclick="SnippetManager.openForm('edit', ${JSON.stringify(s)})" class="p-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded" title="Edit">
+            <div class="flex gap-1 flex-shrink-0">
+              <button onclick="SnippetManager.openForm('edit', ${JSON.stringify(s).replace(/"/g, '&quot;')})" class="p-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded" title="Edit">
                 <i class="fas fa-edit text-sm"></i>
               </button>
               <button onclick="SnippetManager.deleteSnippet('${s.id}')" class="p-1.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded" title="Delete">
@@ -341,11 +345,96 @@ const SnippetManager = {
         </div>
       `).join('');
 
+      // Bind drag-and-drop events
+      this._bindDragEvents(container);
+
       // Re-highlight syntax
       if (typeof Prism !== 'undefined') {
         Prism.highlightAll();
       }
     }
+  },
+
+  // ── Drag & Drop ──────────────────────
+  _dragSrcId: null,
+
+  _bindDragEvents(container) {
+    const cards = container.querySelectorAll('.snippet-card');
+
+    cards.forEach(card => {
+      const handle = card.querySelector('.drag-handle');
+
+      // Only start drag from handle
+      handle.addEventListener('mousedown', () => card.setAttribute('draggable', 'true'));
+      handle.addEventListener('mouseup', () => card.setAttribute('draggable', 'false'));
+
+      card.addEventListener('dragstart', (e) => {
+        this._dragSrcId = card.dataset.id;
+        card.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', card.dataset.id);
+      });
+
+      card.addEventListener('dragend', () => {
+        card.classList.remove('dragging');
+        container.querySelectorAll('.snippet-card').forEach(c => {
+          c.classList.remove('drag-over', 'drag-over-top', 'drag-over-bottom');
+        });
+        this._dragSrcId = null;
+      });
+
+      card.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        const rect = card.getBoundingClientRect();
+        const midY = rect.top + rect.height / 2;
+
+        // Remove all indicators first
+        container.querySelectorAll('.snippet-card').forEach(c => {
+          c.classList.remove('drag-over-top', 'drag-over-bottom');
+        });
+
+        // Show drop indicator
+        if (e.clientY < midY) {
+          card.classList.add('drag-over-top');
+        } else {
+          card.classList.add('drag-over-bottom');
+        }
+      });
+
+      card.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const srcId = e.dataTransfer.getData('text/plain');
+        const dstId = card.dataset.id;
+        if (!srcId || srcId === dstId) return;
+
+        const rect = card.getBoundingClientRect();
+        const midY = rect.top + rect.height / 2;
+        const insertBefore = e.clientY < midY;
+
+        this._reorder(srcId, dstId, insertBefore);
+      });
+    });
+  },
+
+  _reorder(srcId, dstId, insertBefore) {
+    const srcIdx = this.snippets.findIndex(s => s.id === srcId);
+    const dstIdx = this.snippets.findIndex(s => s.id === dstId);
+    if (srcIdx < 0 || dstIdx < 0) return;
+
+    // Remove source
+    const [moved] = this.snippets.splice(srcIdx, 1);
+
+    // Find new destination index (adjusted after removal)
+    let newDstIdx = this.snippets.findIndex(s => s.id === dstId);
+    if (!insertBefore) newDstIdx++;
+
+    // Insert
+    this.snippets.splice(newDstIdx, 0, moved);
+
+    // Save and re-render
+    this.save();
+    this.render();
   }
 };
 
