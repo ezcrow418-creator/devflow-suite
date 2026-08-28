@@ -172,6 +172,14 @@ const SnippetManager = {
       this.openForm('add');
     });
 
+    // Templates
+    document.getElementById('btn-templates')?.addEventListener('click', () => {
+      this.openTemplatePicker();
+    });
+    document.getElementById('template-search')?.addEventListener('input', (e) => {
+      this._renderTemplates(e.target.value.toLowerCase());
+    });
+
     // Cancel button
     document.getElementById('btn-cancel-snippet')?.addEventListener('click', () => {
       this.closeForm();
@@ -208,6 +216,64 @@ const SnippetManager = {
     importFile?.addEventListener('change', (e) => {
       this.importFile(e.target.files[0]);
     });
+  },
+
+  // ── Template Picker ─────────────────
+  openTemplatePicker() {
+    const modal = document.getElementById('template-modal');
+    if (!modal) return;
+    modal.classList.remove('hidden');
+    this._renderTemplates();
+    document.getElementById('template-search')?.focus();
+  },
+
+  _renderTemplates(query = '') {
+    const list = document.getElementById('template-list');
+    if (!list || typeof SnippetTemplates === 'undefined') return;
+
+    const filtered = query
+      ? SnippetTemplates.filter(t =>
+          t.name.toLowerCase().includes(query) ||
+          t.description.toLowerCase().includes(query) ||
+          t.tags.toLowerCase().includes(query)
+        )
+      : SnippetTemplates;
+
+    list.innerHTML = filtered.map((t, i) => `
+      <button onclick="SnippetManager.applyTemplate(${i})" class="w-full text-left p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors">
+        <div class="flex items-center justify-between mb-1">
+          <span class="font-bold text-sm">${t.name}</span>
+          <span class="px-2 py-0.5 text-xs bg-gray-100 dark:bg-gray-700 rounded-full text-gray-600 dark:text-gray-300">${t.lang}</span>
+        </div>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">${t.description}</p>
+        <pre class="text-xs text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-900/50 rounded p-2 overflow-hidden max-h-16 font-mono">${escapeHtml(t.code.split('\n').slice(0, 3).join('\n'))}${t.code.split('\n').length > 3 ? '\n...' : ''}</pre>
+      </button>
+    `).join('');
+
+    if (filtered.length === 0) {
+      list.innerHTML = '<p class="text-center text-gray-400 py-4">No templates found</p>';
+    }
+  },
+
+  applyTemplate(index) {
+    if (typeof SnippetTemplates === 'undefined') return;
+    const t = SnippetTemplates[index];
+    if (!t) return;
+
+    // Close template modal
+    document.getElementById('template-modal')?.classList.add('hidden');
+
+    // Open snippet form pre-filled
+    this.openForm('add');
+    const titleInput = document.getElementById('snippet-title');
+    const langInput = document.getElementById('snippet-language');
+    const tagsInput = document.getElementById('snippet-tags');
+    const codeInput = document.getElementById('snippet-code');
+
+    if (titleInput) titleInput.value = t.name;
+    if (langInput) langInput.value = t.lang;
+    if (tagsInput) tagsInput.value = t.tags;
+    if (codeInput) codeInput.value = t.code;
   },
 
   openForm(mode, snippet = null) {

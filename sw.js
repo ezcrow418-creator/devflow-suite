@@ -19,6 +19,7 @@ const STATIC_ASSETS = [
   '/manifest.json',
   '/js/db.js',
   '/js/app.js',
+  '/js/templates.js',
   '/js/tools.js',
   '/js/checkout.js',
 ];
