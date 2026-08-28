@@ -495,6 +495,36 @@
         </button>
       </div>
 
+      <!-- Snippet Stats Dashboard -->
+      <div id="stats-dashboard" class="mb-8 hidden">
+        <h2 class="text-lg font-bold mb-3 flex items-center gap-2">
+          <i class="fas fa-chart-bar text-blue-500"></i> Your Stats
+        </h2>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+          <div class="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm dark:shadow-none dark:border dark:border-gray-700 text-center">
+            <div id="stat-total" class="text-2xl font-bold text-blue-500">0</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">Total Snippets</div>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm dark:shadow-none dark:border dark:border-gray-700 text-center">
+            <div id="stat-languages" class="text-2xl font-bold text-green-500">0</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">Languages</div>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm dark:shadow-none dark:border dark:border-gray-700 text-center">
+            <div id="stat-tags" class="text-2xl font-bold text-violet-500">0</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">Unique Tags</div>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm dark:shadow-none dark:border dark:border-gray-700 text-center">
+            <div id="stat-storage" class="text-2xl font-bold text-amber-500">0 KB</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">Storage Used</div>
+          </div>
+        </div>
+        <!-- Language breakdown bars -->
+        <div id="stat-lang-bars" class="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm dark:shadow-none dark:border dark:border-gray-700">
+          <div class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-3">Languages</div>
+          <div id="lang-bars-container" class="space-y-2"></div>
+        </div>
+      </div>
+
       <div class="text-center">
         <p class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">💾 Data stored in your browser. No servers. No tracking.</p>
         <p class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm mt-0.5 sm:mt-1 hidden sm:block">✨ Install as PWA for offline access on any device.</p>

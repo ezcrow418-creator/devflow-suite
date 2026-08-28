@@ -124,6 +124,7 @@ const Router = {
     }
 
     // Trigger tool init when entering a tool view
+    if (view === 'dashboard' && typeof SnippetStats !== 'undefined') SnippetStats.update();
     if (view === 'snippets') SnippetManager.init();
     if (view === 'regex') RegexTester.init();
     if (view === 'json') JsonFormatter.init();
@@ -622,6 +623,84 @@ const Shortcuts = {
         this._hidePalette();
       });
     });
+  }
+};
+
+// ─── Snippet Stats Dashboard ─────────
+const SnippetStats = {
+  _colors: {
+    javascript: '#f59e0b', typescript: '#3b82f6', python: '#22c55e',
+    go: '#06b6d4', rust: '#f97316', html: '#ef4444', css: '#8b5cf6',
+    bash: '#6b7280', sql: '#ec4899', json: '#eab308', yaml: '#a855f7', other: '#9ca3af'
+  },
+
+  async update() {
+    let snippets = [];
+    try {
+      if (typeof DB !== 'undefined') {
+        await DB.ready();
+        snippets = await DB.getAll('snippets');
+      }
+    } catch (e) { /* empty */ }
+
+    const dashboard = document.getElementById('stats-dashboard');
+    if (!dashboard) return;
+
+    if (snippets.length === 0) {
+      dashboard.classList.add('hidden');
+      return;
+    }
+
+    dashboard.classList.remove('hidden');
+
+    // Total
+    const totalEl = document.getElementById('stat-total');
+    if (totalEl) totalEl.textContent = snippets.length;
+
+    // Languages
+    const langMap = {};
+    snippets.forEach(s => { langMap[s.language] = (langMap[s.language] || 0) + 1; });
+    const langCount = Object.keys(langMap).length;
+    const langEl = document.getElementById('stat-languages');
+    if (langEl) langEl.textContent = langCount;
+
+    // Tags
+    const tagSet = new Set();
+    snippets.forEach(s => {
+      if (s.tags) s.tags.split(',').forEach(t => tagSet.add(t.trim().toLowerCase()));
+    });
+    const tagEl = document.getElementById('stat-tags');
+    if (tagEl) tagEl.textContent = tagSet.size;
+
+    // Storage estimate
+    const jsonStr = JSON.stringify(snippets);
+    const bytes = new Blob([jsonStr]).size;
+    const storageEl = document.getElementById('stat-storage');
+    if (storageEl) {
+      storageEl.textContent = bytes > 1024
+        ? (bytes / 1024).toFixed(1) + ' KB'
+        : bytes + ' B';
+    }
+
+    // Language bars
+    const barsContainer = document.getElementById('lang-bars-container');
+    if (barsContainer) {
+      const sorted = Object.entries(langMap).sort((a, b) => b[1] - a[1]);
+      const max = sorted[0]?.[1] || 1;
+      barsContainer.innerHTML = sorted.map(([lang, count]) => {
+        const pct = (count / max) * 100;
+        const color = this._colors[lang] || this._colors.other;
+        return `
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-gray-600 dark:text-gray-400 w-20 truncate text-right">${lang}</span>
+            <div class="flex-1 h-5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+              <div class="h-full rounded-full transition-all duration-500" style="width:${pct}%;background:${color}"></div>
+            </div>
+            <span class="text-xs font-medium text-gray-500 dark:text-gray-400 w-6 text-right">${count}</span>
+          </div>
+        `;
+      }).join('');
+    }
   }
 };
 

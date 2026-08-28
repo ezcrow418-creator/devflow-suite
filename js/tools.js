@@ -368,6 +368,16 @@ const SnippetManager = {
       if (typeof Prism !== 'undefined') {
         Prism.highlightAll();
       }
+
+      // Update stats dashboard
+      if (typeof SnippetStats !== 'undefined') {
+        setTimeout(() => SnippetStats.update(), 100);
+      }
+    } else {
+      // No snippets: hide stats
+      if (typeof SnippetStats !== 'undefined') {
+        setTimeout(() => SnippetStats.update(), 100);
+      }
     }
   },
 
