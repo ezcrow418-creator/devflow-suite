@@ -730,6 +730,22 @@ document.addEventListener('DOMContentLoaded', async () => {
   Shortcuts.init();
   OnboardingTour.init();
 
+  // Listen for online/offline status from SW
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.addEventListener('message', (event) => {
+      if (event.data?.type === 'OFFLINE_STATUS') {
+        if (event.data.online) {
+          showNotification('Back online! Syncing...', 'success', 2000);
+        } else {
+          showNotification('You are offline. Changes will sync later.', 'warning', 3000);
+        }
+      }
+      if (event.data?.type === 'SYNC_SNIPPET') {
+        showNotification('Syncing snippets...', 'info', 1500);
+      }
+    });
+  }
+
   // Check for deep link
   const hash = window.location.hash.replace('#', '');
   if (hash && ['landing', 'dashboard', 'snippets', 'regex', 'json', 'color', 'markdown', 'checkout', 'download'].includes(hash)) {

@@ -1042,7 +1042,24 @@ console.log("Hello World");
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function() {
-        navigator.serviceWorker.register('sw.js');
+        navigator.serviceWorker.register('sw.js').then(reg => {
+          // Check for updates every 60 minutes
+          setInterval(() => reg.update(), 3600000);
+          // Notify when new SW is waiting
+          reg.addEventListener('updatefound', () => {
+            const newSW = reg.installing;
+            if (newSW) {
+              newSW.addEventListener('statechange', () => {
+                if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
+                  // New version available
+                  if (typeof showNotification === 'function') {
+                    showNotification('New version available! Refresh to update.', 'info', 5000);
+                  }
+                }
+              });
+            }
+          });
+        });
       });
     }
   </script>
