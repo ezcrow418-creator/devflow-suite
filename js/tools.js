@@ -232,7 +232,11 @@ const SnippetManager = {
     this.save();
     this.closeForm();
     this.render();
+    const title = this.currentEditId ? titleInput?.value?.trim() || 'Snippet' : document.getElementById('snippet-title')?.value?.trim() || 'Snippet';
     showNotification(this.currentEditId ? 'Snippet updated!' : 'Snippet saved!');
+    if (typeof ActivityLog !== 'undefined') {
+      ActivityLog.log(this.currentEditId ? 'Edited' : 'Added', title);
+    }
   },
 
   deleteSnippet(id) {
@@ -249,6 +253,7 @@ const SnippetManager = {
     this.save();
     this.render();
     showNotification(`"${removed.title}" deleted`, 'info', 2000);
+    if (typeof ActivityLog !== 'undefined') ActivityLog.log('Deleted', removed.title);
   },
 
   // ── Undo / Redo ──────────────────────
@@ -331,6 +336,7 @@ const SnippetManager = {
           this.save();
           this.render();
           showNotification(`Imported ${data.length} snippets!`);
+          if (typeof ActivityLog !== 'undefined') ActivityLog.log('Imported', `${data.length} snippets`);
         }
       } catch (err) {
         showNotification('Invalid file format', 'error');
@@ -575,6 +581,7 @@ n    const headerCb = document.getElementById('snippet-select-all');
     this.render();
     this._updateBulkBar();
     showNotification(`${count} snippet${count > 1 ? 's' : ''} deleted`, 'info', 2000);
+    if (typeof ActivityLog !== 'undefined') ActivityLog.log('Bulk deleted', `${count} snippets`);
   },
 
   bulkExport() {
@@ -606,6 +613,7 @@ n    const headerCb = document.getElementById('snippet-select-all');
     this.render();
     this._updateBulkBar();
     showNotification(`${count} snippet${count > 1 ? 's' : ''} → ${lang}`, 'success', 2000);
+    if (typeof ActivityLog !== 'undefined') ActivityLog.log('Changed language', `${count} snippets → ${lang}`);
   },
 
   // ── Pin / Favorite ──────────────────
@@ -616,6 +624,7 @@ n    const headerCb = document.getElementById('snippet-select-all');
     this.save();
     this.render();
     showNotification(s.pinned ? 'Pinned to top' : 'Unpinned', 'info', 1500);
+    if (typeof ActivityLog !== 'undefined') ActivityLog.log(s.pinned ? 'Pinned' : 'Unpinned', s.title);
   },
 
   // ── Share Snippet (Web Share API) ─────

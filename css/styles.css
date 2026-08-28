@@ -971,3 +971,39 @@ html.dark .notif-text {
 .snippet-card.pinned .drag-handle {
   color: #f59e0b;
 }
+
+/* ===== ACTIVITY TIMELINE ===== */
+.activity-item {
+  position: relative;
+}
+
+.activity-item:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 9px;
+  top: 22px;
+  bottom: -12px;
+  width: 2px;
+  background: #e5e7eb;
+}
+
+html.dark .activity-item:not(:last-child)::before {
+  background: #374151;
+}
+
+.activity-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: #f3f4f6;
+  position: relative;
+  z-index: 1;
+}
+
+html.dark .activity-dot {
+  background: #1f293b;
+}

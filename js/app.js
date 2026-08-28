@@ -124,7 +124,10 @@ const Router = {
     }
 
     // Trigger tool init when entering a tool view
-    if (view === 'dashboard' && typeof SnippetStats !== 'undefined') SnippetStats.update();
+    if (view === 'dashboard') {
+      if (typeof SnippetStats !== 'undefined') SnippetStats.update();
+      if (typeof ActivityLog !== 'undefined') ActivityLog.render();
+    }
     if (view === 'snippets') SnippetManager.init();
     if (view === 'regex') RegexTester.init();
     if (view === 'json') JsonFormatter.init();
@@ -792,6 +795,104 @@ const NotificationCenter = {
   }
 };
 
+// ─── Activity Log (Timeline) ──────────
+const ActivityLog = {
+  _key: 'activity_log',
+  _maxEntries: 30,
+  _entries: [],
+
+  async init() {
+    try {
+      if (typeof DB !== 'undefined') {
+        await DB.ready();
+        this._entries = (await DB.setting(this._key)) || [];
+      }
+    } catch (e) { /* ignore */ }
+  },
+
+  async log(action, detail = '') {
+    const entry = {
+      id: Date.now().toString(),
+      action,
+      detail,
+      time: new Date().toISOString()
+    };
+    this._entries.unshift(entry);
+    if (this._entries.length > this._maxEntries) this._entries.pop();
+    await this._save();
+    this.render();
+  },
+
+  render() {
+    const container = document.getElementById('activity-timeline');
+    if (!container) return;
+
+    if (this._entries.length === 0) {
+      container.innerHTML = '<p class="text-sm text-gray-400 dark:text-gray-500">No activity yet.</p>';
+      return;
+    }
+
+    container.innerHTML = this._entries.slice(0, 15).map(e => {
+      const icon = this._iconMap[e.action] || 'fa-circle';
+      const color = this._colorMap[e.action] || 'text-gray-400';
+      const time = this._timeAgo(e.time);
+      return `
+        <div class="activity-item flex items-start gap-3">
+          <div class="activity-dot ${color}"><i class="fas ${icon} text-xs"></i></div>
+          <div class="flex-1 min-w-0">
+            <span class="text-sm text-gray-700 dark:text-gray-300">${e.action}</span>
+            ${e.detail ? `<span class="text-sm text-gray-500 dark:text-gray-400 ml-1">${e.detail}</span>` : ''}
+          </div>
+          <span class="text-xs text-gray-400 dark:text-gray-500 flex-shrink-0">${time}</span>
+        </div>
+      `;
+    }).join('');
+  },
+
+  _iconMap: {
+    'Added': 'fa-plus-circle',
+    'Edited': 'fa-edit',
+    'Deleted': 'fa-trash',
+    'Pinned': 'fa-thumbtack',
+    'Unpinned': 'fa-thumbtack',
+    'Imported': 'fa-upload',
+    'Reordered': 'fa-arrows-alt',
+    'Bulk deleted': 'fa-trash-alt',
+    'Changed language': 'fa-language',
+  },
+
+  _colorMap: {
+    'Added': 'text-green-500',
+    'Edited': 'text-blue-500',
+    'Deleted': 'text-red-500',
+    'Pinned': 'text-amber-500',
+    'Unpinned': 'text-gray-400',
+    'Imported': 'text-violet-500',
+    'Reordered': 'text-cyan-500',
+    'Bulk deleted': 'text-red-500',
+    'Changed language': 'text-pink-500',
+  },
+
+  _timeAgo(iso) {
+    const diff = Date.now() - new Date(iso).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1) return 'now';
+    if (mins < 60) return `${mins}m`;
+    const hours = Math.floor(mins / 60);
+    if (hours < 24) return `${hours}h`;
+    const days = Math.floor(hours / 24);
+    return `${days}d`;
+  },
+
+  async _save() {
+    try {
+      if (typeof DB !== 'undefined' && !DB._useFallback) {
+        await DB.setSetting(this._key, this._entries);
+      }
+    } catch (e) { /* ignore */ }
+  }
+};
+
 // ─── Accent Color Picker ──────────────
 const AccentManager = {
   _presets: {
@@ -1165,6 +1266,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   ZenMode.init();
   AccentManager.init();
   NotificationCenter.init();
+  ActivityLog.init();
   OnboardingTour.init();
 
   // Listen for online/offline status from SW
