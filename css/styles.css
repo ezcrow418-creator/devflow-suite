@@ -962,3 +962,12 @@ html.dark .notif-text {
     grid-template-columns: 1fr !important;
   }
 }
+
+/* ===== PINNED / FAVORITES ===== */
+.snippet-card.pinned {
+  border-left: 3px solid #f59e0b;
+}
+
+.snippet-card.pinned .drag-handle {
+  color: #f59e0b;
+}

@@ -86,6 +86,7 @@ const SnippetManager = {
   filteredSnippets: [],
   currentEditId: null,
   _selectedIds: new Set(),
+  _filterPinned: false,
 
   init() {
     this.bindEvents();
@@ -271,17 +272,38 @@ const SnippetManager = {
     showNotification('Redone!', 'success', 1500);
   },
 
+  toggleFilterPinned() {
+    this._filterPinned = !this._filterPinned;
+    const btn = document.getElementById('btn-filter-pinned');
+    if (btn) {
+      btn.classList.toggle('bg-amber-100', this._filterPinned);
+      btn.classList.toggle('dark:bg-amber-900/30', this._filterPinned);
+      btn.classList.toggle('text-amber-500', this._filterPinned);
+      btn.classList.toggle('border-amber-300', this._filterPinned);
+      btn.classList.toggle('dark:border-amber-700', this._filterPinned);
+    }
+    // Re-apply current search with filter
+    const query = document.getElementById('snippet-search')?.value || '';
+    this.search(query);
+  },
+
   search(query) {
     query = query.toLowerCase().trim();
-    if (!query) {
-      this.filteredSnippets = [...this.snippets];
-    } else {
-      this.filteredSnippets = this.snippets.filter(s =>
-        s.title.toLowerCase().includes(query) ||
-        (s.tags && s.tags.toLowerCase().includes(query)) ||
-        s.language.toLowerCase().includes(query) ||
-        s.code.toLowerCase().includes(query)
-      );
+    let results = query
+      ? this.snippets.filter(s =>
+          s.title.toLowerCase().includes(query) ||
+          (s.tags && s.tags.toLowerCase().includes(query)) ||
+          s.language.toLowerCase().includes(query) ||
+          s.code.toLowerCase().includes(query)
+        )
+      : [...this.snippets];
+
+    // Apply pinned filter
+    if (this._filterPinned) {
+      results = results.filter(s => s.pinned);
+    }
+
+    this.filteredSnippets = results;
     }
     this.render();
   },
@@ -329,8 +351,10 @@ const SnippetManager = {
         </div>
       `;
     } else {
-      container.innerHTML = this.filteredSnippets.map((s, i) => `
-        <div class="snippet-card group bg-white dark:bg-gray-800 rounded-xl shadow-sm dark:shadow-none dark:border dark:border-gray-700 overflow-hidden transition-all duration-200${this._selectedIds.has(s.id) ? ' selected' : ''}" draggable="true" data-id="${s.id}" data-index="${i}">
+      // Sort: pinned first, then by original order
+      const sorted = [...this.filteredSnippets].sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
+      container.innerHTML = sorted.map((s, i) => `
+        <div class="snippet-card group bg-white dark:bg-gray-800 rounded-xl shadow-sm dark:shadow-none dark:border dark:border-gray-700 overflow-hidden transition-all duration-200${this._selectedIds.has(s.id) ? ' selected' : ''}${s.pinned ? ' pinned' : ''}" draggable="true" data-id="${s.id}" data-index="${i}">
           <div class="flex items-center p-4 border-b dark:border-gray-700 gap-3">
             <!-- Checkbox -->
             <input type="checkbox" class="snippet-checkbox w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-blue-500 focus:ring-blue-500 cursor-pointer flex-shrink-0" data-id="${s.id}"${this._selectedIds.has(s.id) ? ' checked' : ''} aria-label="Select snippet ${escapeHtml(s.title)}">
@@ -346,6 +370,9 @@ const SnippetManager = {
               </div>
             </div>
             <div class="flex gap-1 flex-shrink-0">
+              <button onclick="SnippetManager.togglePin('${s.id}')" class="p-1.5 ${s.pinned ? 'text-amber-500' : 'text-gray-400 dark:text-gray-500'} hover:text-amber-500 dark:hover:text-amber-400 rounded transition-colors" title="${s.pinned ? 'Unpin' : 'Pin to top'}">
+                <i class="fas fa-thumbtack text-sm${s.pinned ? '' : ' fa-rotate-45'}"></i>
+              </button>
               <button onclick="SnippetManager.openForm('edit', ${JSON.stringify(s).replace(/"/g, '&quot;')})" class="p-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded" title="Edit">
                 <i class="fas fa-edit text-sm"></i>
               </button>
@@ -579,6 +606,16 @@ n    const headerCb = document.getElementById('snippet-select-all');
     this.render();
     this._updateBulkBar();
     showNotification(`${count} snippet${count > 1 ? 's' : ''} → ${lang}`, 'success', 2000);
+  },
+
+  // ── Pin / Favorite ──────────────────
+  togglePin(id) {
+    const s = this.snippets.find(x => x.id === id);
+    if (!s) return;
+    s.pinned = !s.pinned;
+    this.save();
+    this.render();
+    showNotification(s.pinned ? 'Pinned to top' : 'Unpinned', 'info', 1500);
   },
 
   // ── Share Snippet (Web Share API) ─────
