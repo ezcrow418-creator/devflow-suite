@@ -635,6 +635,162 @@ const Shortcuts = {
   }
 };
 
+// ─── Notification Center ──────────────
+const NotificationCenter = {
+  _notifications: [],
+  _panelOpen: false,
+  _iconMap: { success: 'fa-check-circle', error: 'fa-exclamation-circle', warning: 'fa-exclamation-triangle', info: 'fa-info-circle' },
+
+  async init() {
+    // Load saved notifications
+    try {
+      if (typeof DB !== 'undefined') {
+        await DB.ready();
+        this._notifications = (await DB.setting('notifications')) || [];
+      }
+    } catch (e) { /* ignore */ }
+
+    // Bind toggle
+    document.getElementById('btn-notifications')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this._togglePanel();
+    });
+
+    // Bind clear
+    document.getElementById('notif-clear')?.addEventListener('click', () => this.clearAll());
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#notif-panel') && !e.target.closest('#btn-notifications')) {
+        this._closePanel();
+      }
+    });
+
+    // Request browser notification permission
+    this._requestPermission();
+
+    // Render
+    this._renderBadge();
+    this._renderList();
+  },
+
+  // Add a notification (both in-app and browser)
+  add(message, type = 'info', browser = false) {
+    const notif = {
+      id: Date.now().toString(),
+      message,
+      type,
+      time: new Date().toISOString(),
+      read: false
+    };
+    this._notifications.unshift(notif);
+    if (this._notifications.length > 50) this._notifications.pop();
+    this._save();
+    this._renderBadge();
+    this._renderList();
+
+    // Browser notification
+    if (browser && Notification.permission === 'granted') {
+      new Notification('DevFlow Suite', {
+        body: message,
+        icon: 'assets/icons/icon-192.png',
+        badge: 'assets/icons/icon-192.png',
+        tag: notif.id
+      });
+    }
+  },
+
+  clearAll() {
+    this._notifications = [];
+    this._save();
+    this._renderBadge();
+    this._renderList();
+  },
+
+  _togglePanel() {
+    this._panelOpen = !this._panelOpen;
+    document.getElementById('notif-panel')?.classList.toggle('hidden', !this._panelOpen);
+    if (this._panelOpen) {
+      // Mark all as read
+      this._notifications.forEach(n => n.read = true);
+      this._save();
+      this._renderBadge();
+    }
+  },
+
+  _closePanel() {
+    this._panelOpen = false;
+    document.getElementById('notif-panel')?.classList.add('hidden');
+  },
+
+  _renderBadge() {
+    const badge = document.getElementById('notif-badge');
+    if (!badge) return;
+    const unread = this._notifications.filter(n => !n.read).length;
+    if (unread > 0) {
+      badge.textContent = unread > 9 ? '9+' : unread;
+      badge.classList.remove('hidden');
+      badge.classList.add('flex');
+    } else {
+      badge.classList.add('hidden');
+      badge.classList.remove('flex');
+    }
+  },
+
+  _renderList() {
+    const list = document.getElementById('notif-list');
+    if (!list) return;
+
+    if (this._notifications.length === 0) {
+      list.innerHTML = '<div class="p-4 text-center text-sm text-gray-400">No notifications yet</div>';
+      return;
+    }
+
+    list.innerHTML = this._notifications.slice(0, 20).map(n => {
+      const icon = this._iconMap[n.type] || this._iconMap.info;
+      const time = this._timeAgo(n.time);
+      return `
+        <div class="notif-item${n.read ? '' : ' font-medium'}">
+          <div class="notif-icon ${n.type}"><i class="fas ${icon}"></i></div>
+          <div class="notif-content">
+            <div class="notif-text">${n.message}</div>
+            <div class="notif-time">${time}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  },
+
+  _timeAgo(iso) {
+    const diff = Date.now() - new Date(iso).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1) return 'Just now';
+    if (mins < 60) return `${mins}m ago`;
+    const hours = Math.floor(mins / 60);
+    if (hours < 24) return `${hours}h ago`;
+    const days = Math.floor(hours / 24);
+    return `${days}d ago`;
+  },
+
+  async _requestPermission() {
+    if (!('Notification' in window)) return;
+    if (Notification.permission === 'default') {
+      // Ask after 10s delay
+      setTimeout(() => {
+        Notification.requestPermission();
+      }, 10000);
+    }
+  },
+
+  async _save() {
+    try {
+      if (typeof DB !== 'undefined' && !DB._useFallback) {
+        await DB.setSetting('notifications', this._notifications);
+      }
+    } catch (e) { /* ignore */ }
+  }
+};
+
 // ─── Accent Color Picker ──────────────
 const AccentManager = {
   _presets: {
@@ -1007,6 +1163,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   Shortcuts.init();
   ZenMode.init();
   AccentManager.init();
+  NotificationCenter.init();
   OnboardingTour.init();
 
   // Listen for online/offline status from SW

@@ -417,7 +417,7 @@
           <h1 class="text-xl sm:text-3xl font-bold">DevFlow Suite</h1>
           <p class="text-gray-600 dark:text-gray-300 mt-0.5 sm:mt-1 text-sm sm:text-base hidden sm:block">All your developer tools in one place</p>
         </div>
-        <div class="flex items-center gap-2 sm:gap-4">
+        <div class="flex items-center gap-2 sm:gap-4 relative">
           <button id="theme-toggle-dashboard" class="p-1.5 sm:p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors" aria-label="Toggle dark mode">
             <i class="fas fa-moon" aria-hidden="true"></i>
           </button>
@@ -427,6 +427,19 @@
           <button onclick="Router.navigate('help')" class="hidden sm:flex p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors" aria-label="Help and shortcuts" title="Help & Shortcuts (?)">
             <i class="fas fa-question-circle text-gray-500 dark:text-gray-400"></i>
           </button>
+          <button id="btn-notifications" class="hidden sm:flex p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors relative" aria-label="Notifications">
+            <i class="fas fa-bell text-gray-500 dark:text-gray-400"></i>
+            <span id="notif-badge" class="hidden absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">0</span>
+          </button>
+          <div id="notif-panel" class="hidden absolute top-full right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-xl shadow-xl dark:border dark:border-gray-700 z-50 overflow-hidden">
+            <div class="p-3 border-b dark:border-gray-700 flex items-center justify-between">
+              <span class="font-bold text-sm">Notifications</span>
+              <button id="notif-clear" class="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">Clear all</button>
+            </div>
+            <div id="notif-list" class="max-h-64 overflow-y-auto">
+              <div class="p-4 text-center text-sm text-gray-400">No notifications yet</div>
+            </div>
+          </div>
           <button id="btn-back-landing" class="hidden sm:flex px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
             <i class="fas fa-arrow-left mr-2"></i> Back
           </button>
@@ -1332,6 +1345,9 @@ console.log("Hello World");
                   // New version available
                   if (typeof showNotification === 'function') {
                     showNotification('New version available! Refresh to update.', 'info', 5000);
+                  }
+                  if (typeof NotificationCenter !== 'undefined') {
+                    NotificationCenter.add('New version available! Refresh to get the latest features.', 'info', true);
                   }
                 }
               });

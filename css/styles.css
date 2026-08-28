@@ -870,3 +870,83 @@ select:focus-visible {
 html.dark .snippet-card.selected {
   box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.2) !important;
 }
+
+/* ===== NOTIFICATION CENTER ===== */
+#btn-notifications {
+  position: relative;
+}
+
+#notif-panel {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+}
+
+.notif-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid #f3f4f6;
+  transition: background 0.15s;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.notif-item:hover {
+  background: #f9fafb;
+}
+
+html.dark .notif-item {
+  border-bottom-color: #374151;
+}
+
+html.dark .notif-item:hover {
+  background: #1f293b;
+}
+
+.notif-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.notif-icon.success { background: #dcfce7; color: #16a34a; }
+.notif-icon.error { background: #fef2f2; color: #dc2626; }
+.notif-icon.warning { background: #fefce8; color: #ca8a04; }
+.notif-icon.info { background: #eff6ff; color: #2563eb; }
+
+html.dark .notif-icon.success { background: rgba(22, 163, 74, 0.15); }
+html.dark .notif-icon.error { background: rgba(220, 38, 38, 0.15); }
+html.dark .notif-icon.warning { background: rgba(202, 138, 4, 0.15); }
+html.dark .notif-icon.info { background: rgba(37, 99, 235, 0.15); }
+
+.notif-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.notif-text {
+  font-size: 13px;
+  color: #374151;
+  line-height: 1.4;
+}
+
+html.dark .notif-text {
+  color: #d1d5db;
+}
+
+.notif-time {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+.notif-badge {
+  animation: pulse 2s ease-in-out infinite;
+}
