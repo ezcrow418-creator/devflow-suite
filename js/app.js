@@ -635,6 +635,92 @@ const Shortcuts = {
   }
 };
 
+// ─── Accent Color Picker ──────────────
+const AccentManager = {
+  _presets: {
+    '#3b82f8': { dark: '#2563eb', light: '#60a5fa', rgb: '59, 130, 246' },
+    '#8b5cf6': { dark: '#7c3aed', light: '#a78bfa', rgb: '139, 92, 246' },
+    '#ec4899': { dark: '#db2777', light: '#f472b6', rgb: '236, 72, 153' },
+    '#ef4444': { dark: '#dc2626', light: '#f87171', rgb: '239, 68, 68' },
+    '#f97316': { dark: '#ea580c', light: '#fb923c', rgb: '249, 115, 22' },
+    '#eab308': { dark: '#ca8a04', light: '#facc15', rgb: '234, 179, 8' },
+    '#22c55e': { dark: '#16a34a', light: '#4ade80', rgb: '34, 197, 94' },
+    '#06b6d4': { dark: '#0891b2', light: '#22d3ee', rgb: '6, 182, 212' },
+    '#6b7280': { dark: '#4b5563', light: '#9ca3af', rgb: '107, 114, 128' },
+  },
+
+  async init() {
+    // Load saved accent
+    let saved = '#3b82f8';
+    try {
+      if (typeof DB !== 'undefined') {
+        await DB.ready();
+        saved = (await DB.setting('accent_color')) || '#3b82f8';
+      }
+    } catch (e) { /* use default */ }
+    this._apply(saved);
+
+    // Bind swatch clicks
+    document.querySelectorAll('.accent-swatch').forEach(swatch => {
+      swatch.addEventListener('click', () => {
+        this._apply(swatch.dataset.color);
+        this._save(swatch.dataset.color);
+      });
+    });
+
+    // Bind custom picker
+    const customPicker = document.getElementById('accent-custom-picker');
+    customPicker?.addEventListener('input', (e) => {
+      this._apply(e.target.value);
+    });
+    customPicker?.addEventListener('change', (e) => {
+      this._save(e.target.value);
+    });
+  },
+
+  _apply(hex) {
+    const root = document.documentElement;
+    const info = this._presets[hex] || this._generateShades(hex);
+
+    root.style.setProperty('--accent', hex);
+    root.style.setProperty('--accent-rgb', info.rgb);
+    root.style.setProperty('--accent-dark', info.dark);
+    root.style.setProperty('--accent-light', info.light);
+    root.style.setProperty('--accent-gradient', `linear-gradient(135deg, ${hex}, ${info.dark})`);
+
+    // Update swatch active state
+    document.querySelectorAll('.accent-swatch').forEach(s => {
+      s.classList.toggle('active', s.dataset.color === hex);
+    });
+
+    // Update current color label
+    const label = document.getElementById('accent-current');
+    if (label) label.textContent = hex;
+
+    // Update custom picker value
+    const customPicker = document.getElementById('accent-custom-picker');
+    if (customPicker) customPicker.value = hex;
+  },
+
+  _generateShades(hex) {
+    // Simple shade generation for custom colors
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    const dark = '#' + [r, g, b].map(c => Math.max(0, c - 40).toString(16).padStart(2, '0')).join('');
+    const light = '#' + [r, g, b].map(c => Math.min(255, c + 40).toString(16).padStart(2, '0')).join('');
+    return { dark, light, rgb: `${r}, ${g}, ${b}` };
+  },
+
+  async _save(hex) {
+    try {
+      if (typeof DB !== 'undefined' && !DB._useFallback) {
+        await DB.setSetting('accent_color', hex);
+      }
+    } catch (e) { /* ignore */ }
+  }
+};
+
 // ─── Snippet Stats Dashboard ─────────
 const SnippetStats = {
   _colors: {
@@ -920,6 +1006,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   Analytics.init();
   Shortcuts.init();
   ZenMode.init();
+  AccentManager.init();
   OnboardingTour.init();
 
   // Listen for online/offline status from SW
